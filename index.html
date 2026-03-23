@@ -1,1 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Happy Birthday — A Pixel Wish</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&family=VT323:wght@400&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
 
+  <!-- BACKGROUND CANVASES -->
+  <canvas id="bg-canvas"></canvas>
+  <canvas id="bookshelf"></canvas>
+
+  <!-- MAIN SCENE -->
+  <div id="scene">
+
+    <!-- TITLE -->
+    <div id="title-area">
+      <h1>✦ Happy Birthday ✦</h1>
+      <div class="subtitle">A quiet wish, a warm heart, a lifelong friend.</div>
+    </div>
+
+    <!-- STAGE: BOY · CAKE · GIRL -->
+    <div id="stage">
+
+      <!-- BOY CHARACTER -->
+      <div class="character boy">
+        <canvas id="boy-canvas" width="32" height="48"></canvas>
+        <div class="char-name">— him —</div>
+      </div>
+
+      <!-- CAKE -->
+      <div id="cake-wrap">
+        <div id="wish-text">✨ Close your eyes... ✨</div>
+        <div style="position:relative; display:inline-block;">
+          <canvas id="cake-canvas" width="80" height="100"></canvas>
+          <canvas id="flame-canvas" width="80" height="100"></canvas>
+        </div>
+        <button id="blow-btn">🕯️ Blow the Candles</button>
+        <button id="replay-btn">↺ Relight Candles</button>
+      </div>
+
+      <!-- GIRL CHARACTER -->
+      <div class="character girl">
+        <canvas id="girl-canvas" width="32" height="48"></canvas>
+        <div class="char-name">— her —</div>
+      </div>
+
+    </div><!-- /#stage -->
+
+    <!-- BIRTHDAY MESSAGE CARD -->
+    <div id="message-card">
+      <div class="card-title">✦ A Birthday Blessing ✦</div>
+      <div class="pixel-border-deco"></div>
+      <div class="card-body">
+        Like two pages of the same story,<br>
+        we were written to walk together —<br>
+        through every chapter, every quiet night,<br>
+        every prayer whispered under the same stars.<br><br>
+        <em>May this year carry you gently,</em><br>
+        <em>fill your heart with wonder,</em><br>
+        <em>and remind you how deeply you are loved.</em><br>
+        <span class="verse">
+          " For I know the plans I have for you —<br>
+          plans to prosper you and not to harm you,<br>
+          plans to give you hope and a future. "<br>
+          — Jeremiah 29:11
+        </span>
+      </div>
+      <div class="pixel-border-deco"></div>
+      <div class="card-body card-footer">
+        Happy Birthday, dear friend. 🤍
+      </div>
+    </div><!-- /#message-card -->
+
+  </div><!-- /#scene -->
+
+  <script src="main.js"></script>
+</body>
+</html>
