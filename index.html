@@ -4,55 +4,76 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Happy Birthday — A Pixel Wish</title>
+
+  <!-- Google Fonts -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&family=VT323:wght@400&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Pixelify+Sans:wght@400;700&family=Press+Start+2P&family=VT323&display=swap" rel="stylesheet">
+
+  <!-- Your original pixel-art CSS (cake + candles animations) -->
   <link rel="stylesheet" href="style.css">
+
+  <!-- Layout, theme, and interactive styles -->
+  <link rel="stylesheet" href="extra.css">
 </head>
 <body>
 
-  <!-- BACKGROUND CANVASES -->
+  <!-- Sky background canvas -->
   <canvas id="bg-canvas"></canvas>
+
+  <!-- Bookshelf decoration at bottom -->
   <canvas id="bookshelf"></canvas>
 
-  <!-- MAIN SCENE -->
-  <div id="scene">
+  <!-- Main page -->
+  <div id="page">
 
-    <!-- TITLE -->
+    <!-- Title -->
     <div id="title-area">
       <h1>✦ Happy Birthday ✦</h1>
       <div class="subtitle">A quiet wish, a warm heart, a lifelong friend.</div>
     </div>
 
-    <!-- STAGE: BOY · CAKE · GIRL -->
+    <!-- Stage: Boy · Cake · Girl -->
     <div id="stage">
 
-      <!-- BOY CHARACTER -->
-      <div class="character boy">
+      <!-- BOY -->
+      <div class="char-wrap boy">
         <canvas id="boy-canvas" width="32" height="48"></canvas>
         <div class="char-name">— him —</div>
       </div>
 
-      <!-- CAKE -->
-      <div id="cake-wrap">
+      <!-- CAKE + CANDLES (using your CSS pixel art) -->
+      <div id="cake-center">
         <div id="wish-text">✨ Close your eyes... ✨</div>
-        <div style="position:relative; display:inline-block;">
-          <canvas id="cake-canvas" width="80" height="100"></canvas>
-          <canvas id="flame-canvas" width="80" height="100"></canvas>
+
+        <div class="container">
+          <div class="cake-container">
+
+            <!-- Pixel cake (animated via @keyframes cake in style.css) -->
+            <div class="cake" id="pixel-cake"></div>
+
+            <!-- Four candles — JS will swap .blown class on each -->
+            <div class="green-candle"  id="candle-green"></div>
+            <div class="purple-candle" id="candle-purple"></div>
+            <div class="yellow-candle" id="candle-yellow"></div>
+            <div class="blue-candle"   id="candle-blue"></div>
+
+          </div>
         </div>
+
         <button id="blow-btn">🕯️ Blow the Candles</button>
         <button id="replay-btn">↺ Relight Candles</button>
       </div>
 
-      <!-- GIRL CHARACTER -->
-      <div class="character girl">
+      <!-- GIRL -->
+      <div class="char-wrap girl">
         <canvas id="girl-canvas" width="32" height="48"></canvas>
         <div class="char-name">— her —</div>
       </div>
 
     </div><!-- /#stage -->
 
-    <!-- BIRTHDAY MESSAGE CARD -->
+    <!-- Birthday message — revealed after blow -->
     <div id="message-card">
       <div class="card-title">✦ A Birthday Blessing ✦</div>
       <div class="pixel-border-deco"></div>
@@ -75,9 +96,9 @@
       <div class="card-body card-footer">
         Happy Birthday, dear friend. 🤍
       </div>
-    </div><!-- /#message-card -->
+    </div>
 
-  </div><!-- /#scene -->
+  </div><!-- /#page -->
 
   <script src="main.js"></script>
 </body>

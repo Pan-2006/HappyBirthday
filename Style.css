@@ -1,231 +1,200 @@
 /* ══════════════════════════════════════════
-   DESIGN TOKENS
+   EXTRA STYLES — layered on top of style.css
 ══════════════════════════════════════════ */
+
+@import url('https://fonts.googleapis.com/css2?family=Pixelify+Sans:wght@400;700&family=Press+Start+2P&family=VT323&display=swap');
+
 :root {
-  --sky1:     #1a0a2e;
-  --sky2:     #2d1b69;
-  --sky3:     #8b3a62;
-  --sky4:     #e8834a;
-  --sky5:     #f4c17a;
-  --warm1:    #fff4e0;
   --gold:     #f7c948;
-  --rose:     #f08080;
   --blush:    #f9d4d4;
-  --mint:     #a8d8b9;
   --lavender: #c9b8e8;
   --cream:    #fff8f0;
+  --deep:     #2a0a1e;
 }
 
-/* ══════════════════════════════════════════
-   RESET & BASE
-══════════════════════════════════════════ */
-* {
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
-}
-
+/* ── override body to allow scrolling & layered bg ── */
 body {
-  background: var(--sky1);
-  font-family: 'Press Start 2P', monospace;
-  overflow-x: hidden;
+  display: block;
   min-height: 100vh;
-  cursor: default;
-  image-rendering: pixelated;
+  background: transparent;
+  overflow-x: hidden;
 }
 
-/* ══════════════════════════════════════════
-   BACKGROUND CANVAS
-══════════════════════════════════════════ */
+/* ── fixed sky canvas sits behind everything ── */
 #bg-canvas {
   position: fixed;
   inset: 0;
   z-index: 0;
   width: 100%;
   height: 100%;
+  pointer-events: none;
 }
 
-/* ══════════════════════════════════════════
-   STARS
-══════════════════════════════════════════ */
+/* ── bookshelf strip at bottom ── */
+#bookshelf {
+  position: fixed;
+  bottom: 0; left: 0; right: 0;
+  height: 64px;
+  z-index: 1;
+  image-rendering: pixelated;
+  pointer-events: none;
+}
+
+/* ── stars ── */
 .star {
   position: fixed;
-  width: 4px;
-  height: 4px;
   background: white;
   image-rendering: pixelated;
   animation: twinkle 2s infinite;
-}
-
-@keyframes twinkle {
-  0%, 100% { opacity: .9; }
-  50%       { opacity: .2; }
-}
-
-/* ══════════════════════════════════════════
-   SCENE WRAPPER
-══════════════════════════════════════════ */
-#scene {
-  position: relative;
   z-index: 1;
+}
+@keyframes twinkle {
+  0%,100% { opacity: .9; }
+  50%      { opacity: .2; }
+}
+
+/* ── page wrapper ── */
+#page {
+  position: relative;
+  z-index: 2;
   display: flex;
   flex-direction: column;
   align-items: center;
-  min-height: 100vh;
-  padding: 0 16px 40px;
+  padding: 0 16px 100px;
 }
 
-/* ══════════════════════════════════════════
-   TITLE
-══════════════════════════════════════════ */
+/* ── title ── */
 #title-area {
   text-align: center;
-  margin-top: 28px;
+  margin-top: 32px;
   animation: floatY 3s ease-in-out infinite;
 }
-
 #title-area h1 {
   font-family: 'Press Start 2P', monospace;
   font-size: clamp(10px, 2.2vw, 20px);
   color: var(--gold);
-  text-shadow: 3px 3px 0 #7a4e00, 0 0 20px rgba(247, 201, 72, .6);
+  text-shadow: 3px 3px 0 #7a4e00, 0 0 20px rgba(247,201,72,.6);
   line-height: 1.8;
   letter-spacing: 2px;
 }
-
 #title-area .subtitle {
   font-family: 'VT323', monospace;
-  font-size: clamp(14px, 3vw, 22px);
+  font-size: clamp(15px, 3vw, 24px);
   color: var(--blush);
   margin-top: 6px;
   text-shadow: 1px 1px 0 #8b3a62;
 }
-
 @keyframes floatY {
-  0%, 100% { transform: translateY(0); }
-  50%       { transform: translateY(-6px); }
+  0%,100% { transform: translateY(0); }
+  50%      { transform: translateY(-6px); }
 }
 
-/* ══════════════════════════════════════════
-   MAIN STAGE
-══════════════════════════════════════════ */
+/* ── stage: characters + cake ── */
 #stage {
   display: flex;
   align-items: flex-end;
   justify-content: center;
-  gap: clamp(8px, 3vw, 40px);
-  margin-top: 20px;
+  gap: clamp(12px, 5vw, 80px);
+  margin-top: 24px;
   width: 100%;
-  max-width: 900px;
+  max-width: 960px;
 }
 
-/* ══════════════════════════════════════════
-   CHARACTERS
-══════════════════════════════════════════ */
-.character {
+/* ── pixel characters (canvas) ── */
+.char-wrap {
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 0;
-  position: relative;
   animation: charBob 2.5s ease-in-out infinite;
 }
-
-.character.girl {
-  animation-delay: .4s;
-}
-
-.character canvas {
+.char-wrap.girl { animation-delay: .4s; }
+.char-wrap canvas {
   image-rendering: pixelated;
-  width: clamp(48px, 8vw, 96px);
+  width: clamp(52px, 9vw, 100px);
   height: auto;
 }
-
-@keyframes charBob {
-  0%, 100% { transform: translateY(0) rotate(0deg); }
-  25%       { transform: translateY(-4px) rotate(-1deg); }
-  75%       { transform: translateY(-2px) rotate(1deg); }
-}
-
 .char-name {
   font-family: 'VT323', monospace;
-  font-size: clamp(12px, 2vw, 18px);
+  font-size: clamp(13px, 2.2vw, 20px);
   color: var(--blush);
   margin-top: 4px;
   text-shadow: 1px 1px 0 #8b3a62;
 }
+@keyframes charBob {
+  0%,100% { transform: translateY(0) rotate(0deg); }
+  25%      { transform: translateY(-5px) rotate(-1deg); }
+  75%      { transform: translateY(-2px) rotate(1deg); }
+}
 
-/* ══════════════════════════════════════════
-   CAKE AREA
-══════════════════════════════════════════ */
-#cake-wrap {
+/* ── cake + candles area ── */
+#cake-center {
   display: flex;
   flex-direction: column;
   align-items: center;
   position: relative;
 }
 
-#cake-canvas {
-  image-rendering: pixelated;
-  width: clamp(120px, 22vw, 260px);
-  height: auto;
-  filter: drop-shadow(0 10px 24px rgba(248, 165, 80, .35));
+/* override .container for our layout */
+.container {
+  display: flex !important;
+  flex-direction: column !important;
+  align-items: center !important;
+  padding-bottom: 0 !important;
+  text-align: center;
+  position: relative;
 }
 
-#flame-canvas {
-  position: absolute;
-  top: 0;
-  left: 0;
-  image-rendering: pixelated;
-  width: 100%;
-  height: auto;
-  pointer-events: none;
+/* position candles absolutely over the cake */
+.cake-container {
+  position: relative;
+  padding-right: 0 !important;
+  display: flex;
+  justify-content: center;
 }
 
-/* ══════════════════════════════════════════
-   WISH TEXT
-══════════════════════════════════════════ */
+/* candle positioning tweaks — spread them across the cake top */
+.green-candle  { top: -520px; left: -120px; }
+.purple-candle { top: -520px; left:   50px; }
+.yellow-candle { top: -520px; left:  220px; }
+.blue-candle   { top: -520px; left:  390px; }
+
+/* ── wish text ── */
 #wish-text {
   font-family: 'VT323', monospace;
   font-size: clamp(16px, 3vw, 28px);
   color: var(--gold);
-  text-shadow: 0 0 12px rgba(247, 201, 72, .8), 2px 2px 0 #7a4e00;
+  text-shadow: 0 0 12px rgba(247,201,72,.8), 2px 2px 0 #7a4e00;
   text-align: center;
   min-height: 36px;
-  margin-top: 6px;
+  margin-top: 10px;
   animation: wishPulse 1.5s ease-in-out infinite;
   opacity: 0;
   transition: opacity .4s;
 }
-
-#wish-text.visible {
-  opacity: 1;
-}
-
+#wish-text.visible { opacity: 1; }
 @keyframes wishPulse {
-  0%, 100% { text-shadow: 0 0 12px rgba(247, 201, 72, .8), 2px 2px 0 #7a4e00; }
-  50%       { text-shadow: 0 0 28px rgba(247, 201, 72, 1),  2px 2px 0 #7a4e00; }
+  0%,100% { text-shadow: 0 0 12px rgba(247,201,72,.8), 2px 2px 0 #7a4e00; }
+  50%      { text-shadow: 0 0 28px rgba(247,201,72,1),  2px 2px 0 #7a4e00; }
 }
 
-/* ══════════════════════════════════════════
-   BUTTONS
-══════════════════════════════════════════ */
+/* ── buttons ── */
 #blow-btn {
-  margin-top: 18px;
+  margin-top: 16px;
   font-family: 'Press Start 2P', monospace;
   font-size: clamp(7px, 1.4vw, 12px);
-  color: var(--sky1);
+  color: #1a0a2e;
   background: var(--gold);
   border: none;
-  padding: 12px 20px;
+  padding: 12px 22px;
   cursor: pointer;
-  box-shadow: 4px 4px 0 #7a4e00, 0 0 20px rgba(247, 201, 72, .4);
+  box-shadow: 4px 4px 0 #7a4e00, 0 0 20px rgba(247,201,72,.4);
   transition: transform .1s, box-shadow .1s;
   letter-spacing: 1px;
+  position: relative;
+  z-index: 10;
 }
-
-#blow-btn:hover    { transform: translate(-2px, -2px); box-shadow: 6px 6px 0 #7a4e00; }
-#blow-btn:active   { transform: translate(2px, 2px);   box-shadow: 2px 2px 0 #7a4e00; }
+#blow-btn:hover    { transform: translate(-2px,-2px); box-shadow: 6px 6px 0 #7a4e00; }
+#blow-btn:active   { transform: translate(2px,2px);   box-shadow: 2px 2px 0 #7a4e00; }
 #blow-btn:disabled { opacity: .5; cursor: not-allowed; transform: none; }
 
 #replay-btn {
@@ -236,36 +205,32 @@ body {
   color: var(--lavender);
   background: transparent;
   border: 2px solid var(--lavender);
-  padding: 8px 14px;
+  padding: 8px 16px;
   cursor: pointer;
   box-shadow: 3px 3px 0 #5a3a8a;
   transition: transform .1s;
   letter-spacing: 1px;
+  position: relative;
+  z-index: 10;
 }
+#replay-btn:hover { transform: translate(-1px,-1px); }
 
-#replay-btn:hover { transform: translate(-1px, -1px); }
-
-/* ══════════════════════════════════════════
-   MESSAGE CARD
-══════════════════════════════════════════ */
+/* ── birthday message card ── */
 #message-card {
   display: none;
   max-width: 640px;
   width: 100%;
-  margin-top: 24px;
-  background: rgba(26, 10, 46, .85);
+  margin-top: 28px;
+  background: rgba(26,10,46,.88);
   border: 3px solid var(--gold);
-  box-shadow: 6px 6px 0 #7a4e00, 0 0 40px rgba(247, 201, 72, .2);
-  padding: 24px 28px;
-  position: relative;
+  box-shadow: 6px 6px 0 #7a4e00, 0 0 40px rgba(247,201,72,.2);
+  padding: 26px 30px;
   animation: cardReveal .6s ease both;
 }
-
 @keyframes cardReveal {
   from { opacity: 0; transform: translateY(20px); }
   to   { opacity: 1; transform: translateY(0); }
 }
-
 .card-title {
   font-family: 'Press Start 2P', monospace;
   font-size: clamp(7px, 1.3vw, 11px);
@@ -274,85 +239,48 @@ body {
   margin-bottom: 16px;
   text-shadow: 2px 2px 0 #7a4e00;
 }
-
 .card-body {
   font-family: 'VT323', monospace;
-  font-size: clamp(15px, 2.5vw, 22px);
+  font-size: clamp(16px, 2.6vw, 23px);
   color: var(--cream);
   line-height: 1.9;
   text-align: center;
 }
-
-.card-body em {
-  color: var(--gold);
-  font-style: normal;
-}
-
+.card-body em   { color: var(--gold); font-style: normal; }
 .card-body .verse {
   color: var(--lavender);
   font-size: clamp(13px, 2vw, 18px);
   margin-top: 10px;
   display: block;
 }
-
 .card-footer {
   font-size: clamp(13px, 2vw, 18px);
   color: var(--blush);
   margin-top: 6px;
 }
-
 .pixel-border-deco {
-  width: 100%;
-  height: 4px;
-  background: repeating-linear-gradient(
-    90deg,
-    var(--gold) 0 8px,
-    transparent  8px 16px
-  );
+  width: 100%; height: 4px;
+  background: repeating-linear-gradient(90deg, var(--gold) 0 8px, transparent 8px 16px);
   margin: 10px 0;
 }
 
-/* ══════════════════════════════════════════
-   PARTICLES
-══════════════════════════════════════════ */
+/* ── particles ── */
 .particle {
   position: fixed;
   pointer-events: none;
   z-index: 999;
-  font-size: 14px;
   animation: particleFly 2.2s ease-out forwards;
 }
-
 @keyframes particleFly {
-  0%   { opacity: 1; transform: translate(0, 0) scale(1) rotate(0deg); }
-  100% { opacity: 0; transform: translate(var(--tx), var(--ty)) scale(.4) rotate(var(--rot)); }
+  0%   { opacity: 1; transform: translate(0,0) scale(1) rotate(0deg); }
+  100% { opacity: 0; transform: translate(var(--tx),var(--ty)) scale(.4) rotate(var(--rot)); }
 }
-
-/* ══════════════════════════════════════════
-   BOOKSHELF
-══════════════════════════════════════════ */
-#bookshelf {
-  position: fixed;
-  bottom: 0;
-  left: 0;
-  right: 0;
-  height: 64px;
-  z-index: 0;
-  image-rendering: pixelated;
-  pointer-events: none;
-}
-
-/* ══════════════════════════════════════════
-   FLOATING HEARTS
-══════════════════════════════════════════ */
 .float-heart {
   position: fixed;
   pointer-events: none;
   z-index: 5;
-  font-size: 12px;
   animation: heartFloat 4s ease-out forwards;
 }
-
 @keyframes heartFloat {
   0%   { opacity: .9; transform: translateY(0) scale(1); }
   100% { opacity: 0;  transform: translateY(-180px) scale(.6) rotate(20deg); }
