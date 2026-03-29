@@ -9,279 +9,258 @@
   --blush:    #f9d4d4;
   --lavender: #c9b8e8;
   --cream:    #fff8f0;
-  --deep:     #2a0a1e;
+  --stage-scale: 0.38;
 }
 
-/* ── override body to allow scrolling & layered bg ── */
-body {
-  display: block;
+/* ══ CRITICAL FIX: kill the * { background-color: #feefe5 } from style.css ══ */
+*, *::before, *::after { background-color: transparent !important; }
+
+/* ══ restore color for elements that need it ══ */
+#blow-btn     { background-color: var(--gold) !important; }
+#message-card { background-color: rgba(26,10,46,.92) !important; }
+.pixel-border-deco { background: repeating-linear-gradient(90deg, var(--gold) 0 8px, transparent 8px 16px) !important; }
+#bg-canvas, #bookshelf { background-color: transparent !important; }
+
+/* ══════════ BASE ══════════ */
+html, body {
+  margin: 0; padding: 0;
   min-height: 100vh;
-  background: transparent;
+  background: #0d0520 !important;
   overflow-x: hidden;
+  font-family: 'Pixelify Sans', sans-serif;
 }
 
-/* ── fixed sky canvas sits behind everything ── */
+/* ══════════ FIXED BACKGROUND CANVAS ══════════ */
 #bg-canvas {
-  position: fixed;
-  inset: 0;
-  z-index: 0;
-  width: 100%;
-  height: 100%;
+  position: fixed; inset: 0;
+  z-index: 0; width: 100%; height: 100%;
   pointer-events: none;
 }
 
-/* ── bookshelf strip at bottom ── */
+/* ══════════ BOOKSHELF ══════════ */
 #bookshelf {
-  position: fixed;
-  bottom: 0; left: 0; right: 0;
-  height: 64px;
-  z-index: 1;
-  image-rendering: pixelated;
-  pointer-events: none;
+  position: fixed; bottom: 0; left: 0; right: 0;
+  height: 64px; z-index: 2;
+  image-rendering: pixelated; pointer-events: none;
 }
 
-/* ── stars ── */
+/* ══════════ STARS ══════════ */
 .star {
-  position: fixed;
-  background: white;
+  position: fixed; background: white !important;
   image-rendering: pixelated;
-  animation: twinkle 2s infinite;
-  z-index: 1;
+  animation: twinkle 2s infinite; z-index: 1;
 }
-@keyframes twinkle {
-  0%,100% { opacity: .9; }
-  50%      { opacity: .2; }
-}
+@keyframes twinkle { 0%,100%{opacity:.9} 50%{opacity:.2} }
 
-/* ── page wrapper ── */
+/* ══════════ PAGE ══════════ */
 #page {
-  position: relative;
-  z-index: 2;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  padding: 0 16px 100px;
+  position: relative; z-index: 3;
+  display: flex; flex-direction: column; align-items: center;
+  padding: 0 16px 120px;
 }
 
-/* ── title ── */
+/* ══════════ TITLE ══════════ */
 #title-area {
-  text-align: center;
-  margin-top: 32px;
+  text-align: center; margin-top: 36px;
   animation: floatY 3s ease-in-out infinite;
 }
 #title-area h1 {
   font-family: 'Press Start 2P', monospace;
-  font-size: clamp(10px, 2.2vw, 20px);
+  font-size: clamp(10px,2.2vw,20px);
   color: var(--gold);
   text-shadow: 3px 3px 0 #7a4e00, 0 0 20px rgba(247,201,72,.6);
-  line-height: 1.8;
-  letter-spacing: 2px;
+  line-height: 1.8; letter-spacing: 2px;
 }
 #title-area .subtitle {
   font-family: 'VT323', monospace;
-  font-size: clamp(15px, 3vw, 24px);
-  color: var(--blush);
-  margin-top: 6px;
+  font-size: clamp(15px,3vw,24px);
+  color: var(--blush); margin-top: 6px;
   text-shadow: 1px 1px 0 #8b3a62;
 }
-@keyframes floatY {
-  0%,100% { transform: translateY(0); }
-  50%      { transform: translateY(-6px); }
-}
+@keyframes floatY { 0%,100%{transform:translateY(0)} 50%{transform:translateY(-6px)} }
 
-/* ── stage: characters + cake ── */
+/* ══════════ STAGE: characters + cake ══════════ */
 #stage {
-  display: flex;
-  align-items: flex-end;
-  justify-content: center;
-  gap: clamp(12px, 5vw, 80px);
-  margin-top: 24px;
-  width: 100%;
-  max-width: 960px;
+  display: flex; align-items: flex-end; justify-content: center;
+  gap: clamp(16px,4vw,56px);
+  margin-top: 28px; width: 100%; max-width: 1100px;
 }
 
-/* ── pixel characters (canvas) ── */
+/* ══════════ CHARACTERS ══════════ */
 .char-wrap {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  animation: charBob 2.5s ease-in-out infinite;
+  display: flex; flex-direction: column; align-items: center;
+  animation: charBob 2.5s ease-in-out infinite; flex-shrink: 0;
 }
-.char-wrap.girl { animation-delay: .4s; }
-.char-wrap canvas {
-  image-rendering: pixelated;
-  width: clamp(52px, 9vw, 100px);
-  height: auto;
-}
+.char-wrap.girl { animation-delay:.4s }
+.char-wrap canvas { image-rendering: pixelated; width: clamp(60px,10vw,110px); height:auto }
 .char-name {
-  font-family: 'VT323', monospace;
-  font-size: clamp(13px, 2.2vw, 20px);
-  color: var(--blush);
-  margin-top: 4px;
-  text-shadow: 1px 1px 0 #8b3a62;
+  font-family:'VT323',monospace; font-size:clamp(14px,2.2vw,20px);
+  color:var(--blush); margin-top:4px; text-shadow:1px 1px 0 #8b3a62;
 }
 @keyframes charBob {
-  0%,100% { transform: translateY(0) rotate(0deg); }
-  25%      { transform: translateY(-5px) rotate(-1deg); }
-  75%      { transform: translateY(-2px) rotate(1deg); }
+  0%,100%{transform:translateY(0) rotate(0deg)}
+  25%{transform:translateY(-5px) rotate(-1deg)}
+  75%{transform:translateY(-2px) rotate(1deg)}
 }
 
-/* ── cake + candles area ── */
+/* ══════════ CAKE CENTER COLUMN ══════════ */
 #cake-center {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  position: relative;
+  display: flex; flex-direction: column; align-items: center; flex-shrink: 0;
 }
 
-/* override .container for our layout */
-.container {
-  display: flex !important;
-  flex-direction: column !important;
-  align-items: center !important;
-  padding-bottom: 0 !important;
-  text-align: center;
+/* ══════════ PIXEL STAGE WRAPPER ══════════
+   The .cake div is 1px wide/tall, scaled to 8.5x via box-shadow art.
+   Visual footprint at scale 8.5: ~680px wide × ~800px tall.
+   We wrap all pixel divs in #pixel-stage and scale the whole thing down.
+   The wrapper height is set so it clips the top portion (flame+cake body)
+   and the characters align to the "bottom" of the cake base.
+══════════════════════════════════════════ */
+#pixel-stage {
   position: relative;
+  width: 900px;
+  height: 320px;
+  transform-origin: top center;
+  transform: scale(0.36);
+  margin-bottom: -195px;
+  margin-left: auto;    /* add this */
+  margin-right: auto;   /* add this */
 }
 
-/* position candles absolutely over the cake */
-.cake-container {
-  position: relative;
-  padding-right: 0 !important;
-  display: flex;
-  justify-content: center;
+@media (max-width:900px)  { #pixel-stage { transform:scale(0.28); margin-bottom:-215px; } }
+@media (max-width:600px)  { #pixel-stage { transform:scale(0.20); margin-bottom:-230px; } }
+
+/* Force cake origin to top-left so scaling is predictable */
+.cake {
+  position: absolute !important;
+  top: 0 !important; 
+  left: 220px !important;
+  transform-origin: 0 0 !important;
+  transform: scale(8.5) !important;
+  margin: 0 !important;
 }
 
-/* candle positioning tweaks — spread them across the cake top */
-.green-candle  { top: -520px; left: -120px; }
-.purple-candle { top: -520px; left:   50px; }
-.yellow-candle { top: -520px; left:  220px; }
-.blue-candle   { top: -520px; left:  390px; }
+/* reset style.css .container / .cake-container so they don't interfere */
+.container    { all: unset !important; display: contents !important; }
+.cake-container { all: unset !important; display: contents !important; }
 
-/* ── wish text ── */
+/* ══════════ CANDLES ══════════
+   Each candle is a 1px div with box-shadow art at scale(0.1).
+   We override to scale(8.5) to match the cake, and position
+   each one across the cake's top frosting row.
+   
+   The cake's frosting is around y=5–20 in shadow coords.
+   At scale 8.5 → top: ~42px in #pixel-stage.
+   
+   The cake's top frosting x range is roughly shadow px 15–65.
+   Centre of each candle's own shadow art is at x≈40.
+   So to place candle at shadow-position X on the cake, we set:
+     left = (X - 40) * 8.5  [because the candle art renders offset from its own box]
+   
+   Four candles spread across x = 20, 30, 40, 50 (shadow coords):
+     green:  (20-40)*8.5 = -170px  → left: -170px
+     purple: (30-40)*8.5 = -85px   → left: -85px
+     yellow: (40-40)*8.5 = 0px     → left: 0px
+     blue:   (50-40)*8.5 = 85px    → left: 85px
+   Shift all right by ~200px to center on the cake art (cake starts at left:0).
+══════════════════════════════════════════ */
+.green-candle,
+.purple-candle,
+.yellow-candle,
+.blue-candle {
+  position: absolute !important;
+  transform-origin: 0 0 !important;
+  transform: scale(1) !important;   /* was scale(8.5) — keep them small */
+  z-index: 3 !important;
+}
+
+.green-candle  { top: 28px !important; left: 152px !important; }
+.purple-candle { top: 24px !important; left: 186px !important; }
+.yellow-candle { top: 24px !important; left: 220px !important; }
+.blue-candle   { top: 28px !important; left: 254px !important; }
+
+/* ══════════ WISH TEXT ══════════ */
 #wish-text {
-  font-family: 'VT323', monospace;
-  font-size: clamp(16px, 3vw, 28px);
-  color: var(--gold);
-  text-shadow: 0 0 12px rgba(247,201,72,.8), 2px 2px 0 #7a4e00;
-  text-align: center;
-  min-height: 36px;
-  margin-top: 10px;
+  font-family:'VT323',monospace; font-size:clamp(16px,3vw,28px);
+  color:var(--gold);
+  text-shadow:0 0 12px rgba(247,201,72,.8), 2px 2px 0 #7a4e00;
+  text-align:center; min-height:36px; margin-bottom:8px;
   animation: wishPulse 1.5s ease-in-out infinite;
-  opacity: 0;
-  transition: opacity .4s;
+  opacity:0; transition:opacity .4s;
 }
-#wish-text.visible { opacity: 1; }
+#wish-text.visible { opacity:1 }
 @keyframes wishPulse {
-  0%,100% { text-shadow: 0 0 12px rgba(247,201,72,.8), 2px 2px 0 #7a4e00; }
-  50%      { text-shadow: 0 0 28px rgba(247,201,72,1),  2px 2px 0 #7a4e00; }
+  0%,100%{text-shadow:0 0 12px rgba(247,201,72,.8),2px 2px 0 #7a4e00}
+  50%{text-shadow:0 0 28px rgba(247,201,72,1),2px 2px 0 #7a4e00}
 }
 
-/* ── buttons ── */
+/* ══════════ BUTTONS ══════════ */
 #blow-btn {
-  margin-top: 16px;
+  margin-top: 16px; display: block;
   font-family: 'Press Start 2P', monospace;
-  font-size: clamp(7px, 1.4vw, 12px);
-  color: #1a0a2e;
-  background: var(--gold);
-  border: none;
-  padding: 12px 22px;
-  cursor: pointer;
+  font-size: clamp(7px,1.4vw,12px);
+  color: #1a0a2e !important;
+  background-color: var(--gold) !important;
+  border: none; padding: 12px 22px; cursor: pointer;
   box-shadow: 4px 4px 0 #7a4e00, 0 0 20px rgba(247,201,72,.4);
   transition: transform .1s, box-shadow .1s;
-  letter-spacing: 1px;
-  position: relative;
-  z-index: 10;
+  letter-spacing: 1px; position: relative; z-index: 10;
 }
-#blow-btn:hover    { transform: translate(-2px,-2px); box-shadow: 6px 6px 0 #7a4e00; }
-#blow-btn:active   { transform: translate(2px,2px);   box-shadow: 2px 2px 0 #7a4e00; }
-#blow-btn:disabled { opacity: .5; cursor: not-allowed; transform: none; }
+#blow-btn:hover    { transform:translate(-2px,-2px); box-shadow:6px 6px 0 #7a4e00; }
+#blow-btn:active   { transform:translate(2px,2px);   box-shadow:2px 2px 0 #7a4e00; }
+#blow-btn:disabled { opacity:.5; cursor:not-allowed; transform:none; }
 
 #replay-btn {
-  display: none;
-  margin-top: 10px;
-  font-family: 'Press Start 2P', monospace;
-  font-size: clamp(6px, 1.2vw, 10px);
-  color: var(--lavender);
-  background: transparent;
-  border: 2px solid var(--lavender);
-  padding: 8px 16px;
-  cursor: pointer;
-  box-shadow: 3px 3px 0 #5a3a8a;
-  transition: transform .1s;
-  letter-spacing: 1px;
-  position: relative;
-  z-index: 10;
+  display: none; margin-top: 10px;
+  font-family: 'Press Start 2P', monospace; font-size: clamp(6px,1.2vw,10px);
+  color: var(--lavender) !important; background-color: transparent !important;
+  border: 2px solid var(--lavender); padding: 8px 16px; cursor: pointer;
+  box-shadow: 3px 3px 0 #5a3a8a; transition: transform .1s;
+  letter-spacing: 1px; z-index: 10;
 }
-#replay-btn:hover { transform: translate(-1px,-1px); }
+#replay-btn:hover { transform:translate(-1px,-1px) }
 
-/* ── birthday message card ── */
+/* ══════════ MESSAGE CARD ══════════ */
 #message-card {
-  display: none;
-  max-width: 640px;
-  width: 100%;
-  margin-top: 28px;
-  background: rgba(26,10,46,.88);
+  display:none; max-width:640px; width:100%; margin-top:32px;
+  background-color: rgba(26,10,46,.92) !important;
   border: 3px solid var(--gold);
   box-shadow: 6px 6px 0 #7a4e00, 0 0 40px rgba(247,201,72,.2);
   padding: 26px 30px;
   animation: cardReveal .6s ease both;
 }
 @keyframes cardReveal {
-  from { opacity: 0; transform: translateY(20px); }
-  to   { opacity: 1; transform: translateY(0); }
+  from{opacity:0;transform:translateY(20px)} to{opacity:1;transform:translateY(0)}
 }
 .card-title {
-  font-family: 'Press Start 2P', monospace;
-  font-size: clamp(7px, 1.3vw, 11px);
-  color: var(--gold);
-  text-align: center;
-  margin-bottom: 16px;
-  text-shadow: 2px 2px 0 #7a4e00;
+  font-family:'Press Start 2P',monospace; font-size:clamp(7px,1.3vw,11px);
+  color:var(--gold); text-align:center; margin-bottom:16px;
+  text-shadow:2px 2px 0 #7a4e00;
 }
 .card-body {
-  font-family: 'VT323', monospace;
-  font-size: clamp(16px, 2.6vw, 23px);
-  color: var(--cream);
-  line-height: 1.9;
-  text-align: center;
+  font-family:'VT323',monospace; font-size:clamp(16px,2.6vw,23px);
+  color:var(--cream); line-height:1.9; text-align:center;
 }
-.card-body em   { color: var(--gold); font-style: normal; }
+.card-body em { color:var(--gold); font-style:normal }
 .card-body .verse {
-  color: var(--lavender);
-  font-size: clamp(13px, 2vw, 18px);
-  margin-top: 10px;
-  display: block;
+  color:var(--lavender); font-size:clamp(13px,2vw,18px);
+  margin-top:10px; display:block;
 }
-.card-footer {
-  font-size: clamp(13px, 2vw, 18px);
-  color: var(--blush);
-  margin-top: 6px;
-}
-.pixel-border-deco {
-  width: 100%; height: 4px;
-  background: repeating-linear-gradient(90deg, var(--gold) 0 8px, transparent 8px 16px);
-  margin: 10px 0;
-}
+.card-footer { font-size:clamp(13px,2vw,18px) !important; color:var(--blush) !important; margin-top:6px; }
 
-/* ── particles ── */
+/* ══════════ PARTICLES ══════════ */
 .particle {
-  position: fixed;
-  pointer-events: none;
-  z-index: 999;
-  animation: particleFly 2.2s ease-out forwards;
+  position:fixed; pointer-events:none; z-index:999;
+  animation:particleFly 2.2s ease-out forwards;
 }
 @keyframes particleFly {
-  0%   { opacity: 1; transform: translate(0,0) scale(1) rotate(0deg); }
-  100% { opacity: 0; transform: translate(var(--tx),var(--ty)) scale(.4) rotate(var(--rot)); }
+  0%  {opacity:1;transform:translate(0,0) scale(1) rotate(0deg)}
+  100%{opacity:0;transform:translate(var(--tx),var(--ty)) scale(.4) rotate(var(--rot))}
 }
 .float-heart {
-  position: fixed;
-  pointer-events: none;
-  z-index: 5;
-  animation: heartFloat 4s ease-out forwards;
+  position:fixed; pointer-events:none; z-index:5;
+  animation:heartFloat 4s ease-out forwards;
 }
 @keyframes heartFloat {
-  0%   { opacity: .9; transform: translateY(0) scale(1); }
-  100% { opacity: 0;  transform: translateY(-180px) scale(.6) rotate(20deg); }
+  0%  {opacity:.9;transform:translateY(0) scale(1)}
+  100%{opacity:0;transform:translateY(-180px) scale(.6) rotate(20deg)}
 }
