@@ -4,96 +4,104 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Happy Birthday — A Pixel Wish</title>
-
-  <!-- Google Fonts -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Pixelify+Sans:wght@400;700&family=Press+Start+2P&family=VT323&display=swap" rel="stylesheet">
-
-  <!-- Your original pixel-art CSS (cake + candles animations) -->
+  <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&family=VT323&family=Pixelify+Sans:wght@400;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="style.css">
-
-  <!-- Layout, theme, and interactive styles -->
   <link rel="stylesheet" href="extra.css">
 </head>
 <body>
 
-  <!-- Sky background canvas -->
+  <!-- Fixed sky canvas (z-index: 0) -->
   <canvas id="bg-canvas"></canvas>
 
-  <!-- Bookshelf decoration at bottom -->
-  <canvas id="bookshelf"></canvas>
+  <!-- ════════════════════════════════════
+       HERO — full viewport, perfectly centered
+       ════════════════════════════════════ -->
+  <section id="hero">
 
-  <!-- Main page -->
-  <div id="page">
-
-    <!-- Title -->
-    <div id="title-area">
-      <h1>✦ Happy Birthday ✦</h1>
-      <div class="subtitle">A quiet wish, a warm heart, a lifelong friend.</div>
+    <!-- Left character -->
+    <div class="char-wrap boy" id="char-boy">
+      <canvas id="boy-canvas" width="32" height="48"></canvas>
+      <div class="char-name">— him —</div>
     </div>
 
-    <!-- Stage: Boy · Cake · Girl -->
-    <div id="stage">
+    <!-- Center column: title + cake + button -->
+    <div id="center-col">
 
-      <!-- BOY -->
-      <div class="char-wrap boy">
-        <canvas id="boy-canvas" width="32" height="48"></canvas>
-        <div class="char-name">— him —</div>
+      <div id="title-area">
+        <h1>✦ Happy Birthday ✦</h1>
+        <p class="subtitle">Two souls, one story —<br>written in starlight and grace.</p>
       </div>
 
-      <!-- CAKE + CANDLES (using your CSS pixel art) -->
-      <div id="cake-center">
-        <div id="wish-text">✨ Close your eyes... ✨</div>
+      <div id="cake-area">
+        <div id="wish-text">✨ Make a wish... ✨</div>
 
         <div id="pixel-stage">
-            <div class="cake" id="pixel-cake"></div>
-            <div class="green-candle"  id="candle-green"></div>
-            <div class="purple-candle" id="candle-purple"></div>
-            <div class="yellow-candle" id="candle-yellow"></div>
-            <div class="blue-candle"   id="candle-blue"></div>
-          </div>
-          </div>
+          <div class="cake" id="pixel-cake"></div>
+          <div class="green-candle"  id="candle-green"></div>
+          <div class="purple-candle" id="candle-purple"></div>
+          <div class="yellow-candle" id="candle-yellow"></div>
+          <div class="blue-candle"   id="candle-blue"></div>
         </div>
+      </div>
 
+      <div id="action-area">
         <button id="blow-btn">🕯️ Blow the Candles</button>
-        <button id="replay-btn">↺ Relight Candles</button>
+        <div id="scroll-hint">↓ scroll for your message ↓</div>
       </div>
 
-      <!-- GIRL -->
-      <div class="char-wrap girl">
-        <canvas id="girl-canvas" width="32" height="48"></canvas>
-        <div class="char-name">— her —</div>
-      </div>
+    </div><!-- /#center-col -->
 
-    </div><!-- /#stage -->
-
-    <!-- Birthday message — revealed after blow -->
-    <div id="message-card">
-      <div class="card-title">✦ A Birthday Blessing ✦</div>
-      <div class="pixel-border-deco"></div>
-      <div class="card-body">
-        Like two pages of the same story,<br>
-        we were written to walk together —<br>
-        through every chapter, every quiet night,<br>
-        every prayer whispered under the same stars.<br><br>
-        <em>May this year carry you gently,</em><br>
-        <em>fill your heart with wonder,</em><br>
-        <em>and remind you how deeply you are loved.</em><br>
-        <span class="verse">
-          " For I know the plans I have for you —<br>
-          plans to prosper you and not to harm you,<br>
-          plans to give you hope and a future. "<br>
-          — Jeremiah 29:11
-        </span>
-      </div>
-      <div class="pixel-border-deco"></div>
-      <div class="card-body card-footer">
-        Happy Birthday, dear friend. 🤍
-      </div>
+    <!-- Right character -->
+    <div class="char-wrap girl" id="char-girl">
+      <canvas id="girl-canvas" width="32" height="48"></canvas>
+      <div class="char-name">— her —</div>
     </div>
 
-  </div><!-- /#page -->
+  </section>
+
+  <!-- ════════════════════════════════════
+       STORY — scroll-based message section
+       ════════════════════════════════════ -->
+  <section id="story" aria-hidden="true">
+
+    <div class="story-line big">✦ A Birthday Blessing ✦</div>
+    <div class="story-div"></div>
+
+    <div class="story-line">Like two pages of the same story,</div>
+    <div class="story-line">we were written to walk together —</div>
+    <div class="story-line gold">through every chapter, every quiet night,</div>
+    <div class="story-line">every prayer whispered under the same stars.</div>
+
+    <div class="story-div"></div>
+
+    <div class="story-line blush">You are the kind of person</div>
+    <div class="story-line blush">who makes ordinary days feel like poetry.</div>
+    <div class="story-line gold">Your laugh is a gift. Your heart, a home.</div>
+
+    <div class="story-div"></div>
+
+    <div class="story-line">May this year carry you gently,</div>
+    <div class="story-line gold">fill your heart with wonder,</div>
+    <div class="story-line">and remind you how deeply you are loved.</div>
+
+    <div class="story-div"></div>
+
+    <div class="story-line lav">" For I know the plans I have for you —</div>
+    <div class="story-line lav">plans to prosper you and not to harm you,</div>
+    <div class="story-line lav">plans to give you hope and a future. "</div>
+    <div class="story-line lav small">— Jeremiah 29:11</div>
+
+    <div class="story-div"></div>
+
+    <div class="story-line final">Happy Birthday, dear friend. 🤍</div>
+
+    <div id="replay-wrap">
+      <button id="replay-btn">↺ Relight the Candles</button>
+    </div>
+
+  </section>
 
   <script src="main.js"></script>
 </body>
