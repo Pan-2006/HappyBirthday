@@ -440,7 +440,7 @@ $('blow-btn').addEventListener('click', function () {
     $('scroll-hint').style.display = 'block';
 
     const story = $('story');
-    story.style.display   = 'block';
+    story.style.display = 'block';          // ← only revealed here
     story.setAttribute('aria-hidden', 'false');
     $('replay-wrap').style.display = 'none';
 

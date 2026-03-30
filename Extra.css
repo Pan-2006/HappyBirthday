@@ -141,7 +141,7 @@ body {
   display: flex;
   flex-direction: column;
   align-items: center;
-  margin-top: var(--sp-md);
+  margin-top: 20px;
   position: relative;
 }
 
@@ -174,9 +174,9 @@ body {
   width: 680px;
   height: 360px;
   transform-origin: top center;
-  transform: scale(0.34);
+  transform: scale(0.32);
   /* compensate: -(height × (1 - scale)) */
-  margin-bottom: -238px;
+  margin-bottom: -245px;
   flex-shrink: 0;
 }
 
@@ -210,18 +210,20 @@ body {
   transform: scale(1) !important;
   z-index: 3 !important;
 }
-.green-candle  { top: 36px !important; left: 262px !important; }
-.purple-candle { top: 32px !important; left: 296px !important; }
-.yellow-candle { top: 32px !important; left: 330px !important; }
-.blue-candle   { top: 36px !important; left: 364px !important; }
+.green-candle  { top: 30px !important; left: 272px !important; }
+.purple-candle { top: 26px !important; left: 306px !important; }
+.yellow-candle { top: 26px !important; left: 340px !important; }
+.blue-candle   { top: 30px !important; left: 374px !important; }
 
 /* ── Action area: button + scroll hint ─────────────────────── */
 #action-area {
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: var(--sp-xs);
-  margin-top: var(--sp-sm);
+  gap: 8px;
+  margin-top: 20px;
+  position: relative;
+  z-index: 10;
 }
 
 /* Blow button */
