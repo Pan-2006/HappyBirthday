@@ -167,25 +167,27 @@ body {
 
 /* ── Pixel stage wrapper ───────────────────────────────────
    The .cake div is 1px, box-shadow art at scale(8.5).
-   Visual size ≈ 680 × 807px. We scale the whole wrapper
-   down so it fits, then compensate margin so layout stays tight.
+   Cake pixel art is ~95px tall → 95 × 8.5 = ~807px visual height.
+   Stage must be tall enough to contain it, then we pull back
+   the excess space with a negative margin-bottom.
+   Formula: margin-bottom = -( height × (1 - scale) )
 ─────────────────────────────────────────────────────────── */
 #pixel-stage {
   position: relative;
   width: 680px;
-  height: 360px;
+  height: 500px;
   transform-origin: top center;
   transform: scale(0.32);
-  /* compensate: -(height × (1 - scale)) */
-  margin-bottom: -245px;
+  /* -(500 × (1 - 0.32)) = -340 */
+  margin-bottom: -340px;
   flex-shrink: 0;
 }
 
 /* Responsive scale */
-@media (max-width: 1100px) { #pixel-stage { transform: scale(0.30); margin-bottom: -252px; } }
-@media (max-width: 800px)  { #pixel-stage { transform: scale(0.25); margin-bottom: -270px; } }
-@media (max-width: 600px)  { #pixel-stage { transform: scale(0.20); margin-bottom: -288px; } }
-@media (max-width: 400px)  { #pixel-stage { transform: scale(0.16); margin-bottom: -302px; } }
+@media (max-width: 1100px) { #pixel-stage { transform: scale(0.30); margin-bottom: -350px; } }
+@media (max-width: 800px)  { #pixel-stage { transform: scale(0.25); margin-bottom: -375px; } }
+@media (max-width: 600px)  { #pixel-stage { transform: scale(0.20); margin-bottom: -400px; } }
+@media (max-width: 400px)  { #pixel-stage { transform: scale(0.16); margin-bottom: -420px; } }
 
 /* Cake — anchored top-left, scales from that origin */
 .cake {
@@ -223,7 +225,7 @@ body {
   flex-direction: column;
   align-items: center;
   gap: 8px;
-  margin-top: 20px;
+  margin-top: 12px;
   position: relative;
   z-index: 10;
 }
