@@ -176,16 +176,15 @@ body {
   height: 420px;
   transform-origin: top center;
   transform: scale(0.32);
-  /* -(420 × (1 - 0.32)) = -285 */
-  margin-bottom: -285px;
+  margin-bottom: -220px;
   flex-shrink: 0;
 }
 
 /* Responsive scale */
-@media (max-width: 1100px) { #pixel-stage { transform: scale(0.30); margin-bottom: -294px; } }
-@media (max-width: 800px)  { #pixel-stage { transform: scale(0.25); margin-bottom: -315px; } }
-@media (max-width: 600px)  { #pixel-stage { transform: scale(0.20); margin-bottom: -336px; } }
-@media (max-width: 400px)  { #pixel-stage { transform: scale(0.16); margin-bottom: -353px; } }
+@media (max-width: 1100px) { #pixel-stage { transform: scale(0.30); margin-bottom: -228px; } }
+@media (max-width: 800px)  { #pixel-stage { transform: scale(0.25); margin-bottom: -252px; } }
+@media (max-width: 600px)  { #pixel-stage { transform: scale(0.20); margin-bottom: -272px; } }
+@media (max-width: 400px)  { #pixel-stage { transform: scale(0.16); margin-bottom: -290px; } }
 
 /* Cake — fix missing px unit, shift up so it sits above button */
 .cake {
