@@ -190,7 +190,7 @@ body {
 .cake {
   position: absolute !important;
   top: 10px !important;
-  left: 150px !important;
+  left: 170px !important;
   transform-origin: 0 0 !important;
   transform: scale(8.5) !important;
   margin: 0 !important;
@@ -211,10 +211,10 @@ body {
   transform: scale(1) !important;
   z-index: 3 !important;
 }
-.green-candle  { top: 20px !important; left: 302px !important; }
-.purple-candle { top: 16px !important; left: 336px !important; }
-.yellow-candle { top: 16px !important; left: 370px !important; }
-.blue-candle   { top: 20px !important; left: 404px !important; }
+.green-candle  { top: 20px !important; left: 322px !important; }
+.purple-candle { top: 16px !important; left: 356px !important; }
+.yellow-candle { top: 16px !important; left: 390px !important; }
+.blue-candle   { top: 20px !important; left: 424px !important; }
 
 /* ── Action area: button + scroll hint ─────────────────────── */
 #action-area {
