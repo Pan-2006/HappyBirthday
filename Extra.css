@@ -176,32 +176,33 @@ body {
 }
 
 /* ── Pixel stage wrapper ───────────────────────────────────
-   Stage is 680px wide, transform-origin: top center.
-   Cake pixel art is 45px wide (pre-scale).
-   True center offset: (680/2) - (45/2) = 317px
-   Candle group spans ~px 9-20 of art, centered around cake center.
+   New approach: stage is exactly the cake's visual width so
+   flexbox in #cake-area centers it automatically — no more
+   guessing left offsets.
+   Cake pixel art = 45px wide, 95px tall (pre-scale at 8.5x).
+   Visual size = 382px × 807px, scaled down by wrapper scale.
 ─────────────────────────────────────────────────────────── */
 #pixel-stage {
   position: relative;
-  width: 680px;
-  height: 420px;
+  width: 45px;
+  height: 95px;
   transform-origin: top center;
-  transform: scale(0.32);
-  margin-bottom: -220px;
+  transform: scale(4.0);
+  margin-bottom: -285px;
   flex-shrink: 0;
 }
 
 /* Responsive scale */
-@media (max-width: 1100px) { #pixel-stage { transform: scale(0.30); margin-bottom: -228px; } }
-@media (max-width: 800px)  { #pixel-stage { transform: scale(0.25); margin-bottom: -252px; } }
-@media (max-width: 600px)  { #pixel-stage { transform: scale(0.20); margin-bottom: -272px; } }
-@media (max-width: 400px)  { #pixel-stage { transform: scale(0.16); margin-bottom: -290px; } }
+@media (max-width: 1100px) { #pixel-stage { transform: scale(3.6); margin-bottom: -290px; } }
+@media (max-width: 800px)  { #pixel-stage { transform: scale(3.0); margin-bottom: -295px; } }
+@media (max-width: 600px)  { #pixel-stage { transform: scale(2.4); margin-bottom: -300px; } }
+@media (max-width: 400px)  { #pixel-stage { transform: scale(1.9); margin-bottom: -305px; } }
 
-/* Cake — perfectly centered: (680/2) - (45/2) = 317px */
+/* Cake — sits at 0,0 of the stage, stage handles centering */
 .cake {
   position: absolute !important;
-  top: 10px !important;
-  left: 185px !important;
+  top: 0px !important;
+  left: 0px !important;
   transform-origin: 0 0 !important;
   transform: scale(8.5) !important;
   margin: 0 !important;
@@ -212,7 +213,10 @@ body {
 .container,
 .cake-container { all: unset !important; display: contents !important; }
 
-/* Candles — offset relative to cake left (317px) + candle pixel positions */
+/* Candles — spread across the cake top frosting.
+   Cake frosting top is around y=28px (pre-scale).
+   Candles spread from x=5 to x=38 across the cake width.
+   Each candle is ~4px wide pre-scale, spaced ~9px apart. */
 .green-candle,
 .purple-candle,
 .yellow-candle,
@@ -222,10 +226,10 @@ body {
   transform: scale(1) !important;
   z-index: 3 !important;
 }
-.green-candle  { top: 20px !important; left: 337px !important; }
-.purple-candle { top: 16px !important; left: 371px !important; }
-.yellow-candle { top: 16px !important; left: 405px !important; }
-.blue-candle   { top: 20px !important; left: 439px !important; }
+.green-candle  { top: 28px !important; left: 5px  !important; }
+.purple-candle { top: 24px !important; left: 14px !important; }
+.yellow-candle { top: 24px !important; left: 27px !important; }
+.blue-candle   { top: 28px !important; left: 36px !important; }
 
 /* ── Action area: button + scroll hint ─────────────────────── */
 #action-area {
