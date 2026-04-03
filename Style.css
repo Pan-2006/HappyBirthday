@@ -1,6 +1,7 @@
 * {
     font-family: "Pixelify Sans", sans-serif;
-    background-color: #feefe5;
+    /* Removed background-color: #feefe5 — it bled onto every element
+       causing peach artifact boxes around the pixel art cake. */
 }
 body {
   margin: 0;
@@ -30,16 +31,15 @@ body {
   align-items: center;
 }
 .cake {
-  position: relative;
+  /* Scale and position are fully controlled by extra.css
+     using absolute positioning inside #pixel-stage.
+     Only keeping the animation and overflow here. */
   animation: cake 1s infinite;
   -webkit-animation: cake 1s infinite;
   -moz-animation: cake 1s infinite;
-
   -o-animation: cake 1s infinite;
-  transform: scale(8.5);
-    z-index: 1; /* optional */
-  overflow: visible; /* allow candles to "escape" */
-
+  overflow: visible;
+  z-index: 1;
 }
 
 @keyframes cake {

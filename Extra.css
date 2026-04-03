@@ -20,17 +20,15 @@
   --sp-lg: 48px;
 }
 
-/* ── Kill style.css * { background-color } bleed ──────────── */
+/* ── Reset ──────────────────────────────────────────────────── */
 *, *::before, *::after {
   box-sizing: border-box;
   margin: 0;
   padding: 0;
-  background-color: transparent !important;
 }
 
-/* ── Restore intentional backgrounds ──────────────────────── */
+/* ── Restore intentional button background ─────────────────── */
 #blow-btn  { background-color: var(--gold) !important; }
-#story     { background-color: transparent !important; }
 
 html {
   scroll-behavior: smooth;
