@@ -164,11 +164,10 @@ body {
 }
 
 /* ── Pixel stage wrapper ───────────────────────────────────
-   The .cake div is 1px, box-shadow art at scale(8.5).
-   Cake pixel art is ~95px tall → 95 × 8.5 = ~807px visual height.
-   Stage must be tall enough to contain it, then we pull back
-   the excess space with a negative margin-bottom.
-   Formula: margin-bottom = -( height × (1 - scale) )
+   Stage is 680px wide, transform-origin: top center.
+   Cake pixel art is 45px wide (pre-scale).
+   True center offset: (680/2) - (45/2) = 317px
+   Candle group spans ~px 9-20 of art, centered around cake center.
 ─────────────────────────────────────────────────────────── */
 #pixel-stage {
   position: relative;
@@ -186,11 +185,11 @@ body {
 @media (max-width: 600px)  { #pixel-stage { transform: scale(0.20); margin-bottom: -272px; } }
 @media (max-width: 400px)  { #pixel-stage { transform: scale(0.16); margin-bottom: -290px; } }
 
-/* Cake — fix missing px unit, shift up so it sits above button */
+/* Cake — perfectly centered: (680/2) - (45/2) = 317px */
 .cake {
   position: absolute !important;
   top: 10px !important;
-  left: 170px !important;
+  left: 317px !important;
   transform-origin: 0 0 !important;
   transform: scale(8.5) !important;
   margin: 0 !important;
@@ -201,7 +200,7 @@ body {
 .container,
 .cake-container { all: unset !important; display: contents !important; }
 
-/* Candles — sit on top of frosting, aligned with cake */
+/* Candles — offset relative to cake left (317px) + candle pixel positions */
 .green-candle,
 .purple-candle,
 .yellow-candle,
@@ -211,10 +210,10 @@ body {
   transform: scale(1) !important;
   z-index: 3 !important;
 }
-.green-candle  { top: 20px !important; left: 322px !important; }
-.purple-candle { top: 16px !important; left: 356px !important; }
-.yellow-candle { top: 16px !important; left: 390px !important; }
-.blue-candle   { top: 20px !important; left: 424px !important; }
+.green-candle  { top: 20px !important; left: 469px !important; }
+.purple-candle { top: 16px !important; left: 503px !important; }
+.yellow-candle { top: 16px !important; left: 537px !important; }
+.blue-candle   { top: 20px !important; left: 571px !important; }
 
 /* ── Action area: button + scroll hint ─────────────────────── */
 #action-area {
