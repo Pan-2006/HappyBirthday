@@ -190,7 +190,7 @@ body {
 .cake {
   position: absolute !important;
   top: 10px !important;
-  left: 120px !important;
+  left: 150px !important;
   transform-origin: 0 0 !important;
   transform: scale(8.5) !important;
   margin: 0 !important;
@@ -211,10 +211,10 @@ body {
   transform: scale(1) !important;
   z-index: 3 !important;
 }
-.green-candle  { top: 20px !important; left: 272px !important; }
-.purple-candle { top: 16px !important; left: 306px !important; }
-.yellow-candle { top: 16px !important; left: 340px !important; }
-.blue-candle   { top: 20px !important; left: 374px !important; }
+.green-candle  { top: 20px !important; left: 302px !important; }
+.purple-candle { top: 16px !important; left: 336px !important; }
+.yellow-candle { top: 16px !important; left: 370px !important; }
+.blue-candle   { top: 20px !important; left: 404px !important; }
 
 /* ── Action area: button + scroll hint ─────────────────────── */
 #action-area {
@@ -232,12 +232,12 @@ body {
   font-family: 'Press Start 2P', monospace;
   font-size: clamp(7px, 1.3vw, 11px);
   color: #1a0a2e !important;
-  background-color: var(--gold) !important;
+  background-color: #f7c948 !important;
   border: none;
   padding: 13px 26px;
   cursor: pointer;
   letter-spacing: 1px;
-  box-shadow: 4px 4px 0 var(--gold-dk), 0 0 20px rgba(247,201,72,.3);
+  box-shadow: 4px 4px 0 #7a4e00, 0 0 20px rgba(247,201,72,.3);
   transition: transform .12s ease, box-shadow .12s ease;
   animation: btnGlow 2.8s ease-in-out infinite;
 }
