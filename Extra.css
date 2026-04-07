@@ -93,11 +93,11 @@ body {
 
   display: flex;
   flex-direction: row;
-  align-items: center;        /* vertical center of viewport */
-  justify-content: center;    /* horizontal center */
+  align-items: center;
+  justify-content: space-between;   /* boy | cake | girl evenly spaced */
 
-  gap: clamp(16px, 4vw, 56px);
-  padding: 32px clamp(8px, 3vw, 48px);
+  padding: 32px clamp(24px, 5vw, 80px);
+  gap: 0;
 }
 
 /* ── Center column ─────────────────────────────────────────── */
@@ -105,10 +105,9 @@ body {
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 0;                     /* controlled by child margins below */
-  flex: 0 1 auto;
-  max-width: min(420px, 100%);
-  width: 100%;
+  gap: 0;
+  flex: 0 1 auto;           /* don't grow, can shrink */
+  max-width: min(420px, 60%);
   min-width: 0;
 }
 
@@ -176,29 +175,29 @@ body {
 }
 
 /* ── Pixel stage wrapper ───────────────────────────────────
-   New approach: stage is exactly the cake's visual width so
-   flexbox in #cake-area centers it automatically — no more
-   guessing left offsets.
-   Cake pixel art = 45px wide, 95px tall (pre-scale at 8.5x).
-   Visual size = 382px × 807px, scaled down by wrapper scale.
+   Stage matches cake's native pixel dimensions (45×95px).
+   Scaled up moderately so it fits neatly inside the hero.
+   transform-origin: top center lets flexbox center it.
+   margin-bottom compensates for the space the scaled stage
+   would otherwise occupy: -(height × (scale - 1))
 ─────────────────────────────────────────────────────────── */
 #pixel-stage {
   position: relative;
   width: 45px;
   height: 95px;
   transform-origin: top center;
-  transform: scale(4.0);
-  margin-bottom: -285px;
+  transform: scale(2.2);
+  margin-bottom: -81px;   /* -(95 × (2.2 - 1)) = -114, leave some room */
   flex-shrink: 0;
 }
 
 /* Responsive scale */
-@media (max-width: 1100px) { #pixel-stage { transform: scale(3.6); margin-bottom: -290px; } }
-@media (max-width: 800px)  { #pixel-stage { transform: scale(3.0); margin-bottom: -295px; } }
-@media (max-width: 600px)  { #pixel-stage { transform: scale(2.4); margin-bottom: -300px; } }
-@media (max-width: 400px)  { #pixel-stage { transform: scale(1.9); margin-bottom: -305px; } }
+@media (max-width: 1100px) { #pixel-stage { transform: scale(2.0); margin-bottom: -95px; } }
+@media (max-width: 800px)  { #pixel-stage { transform: scale(1.7); margin-bottom: -104px; } }
+@media (max-width: 600px)  { #pixel-stage { transform: scale(1.4); margin-bottom: -114px; } }
+@media (max-width: 400px)  { #pixel-stage { transform: scale(1.1); margin-bottom: -119px; } }
 
-/* Cake — sits at 0,0 of the stage, stage handles centering */
+/* Cake — left:0, top:0 since stage is now exactly the cake's size */
 .cake {
   position: absolute !important;
   top: 0px !important;
@@ -213,10 +212,7 @@ body {
 .container,
 .cake-container { all: unset !important; display: contents !important; }
 
-/* Candles — spread across the cake top frosting.
-   Cake frosting top is around y=28px (pre-scale).
-   Candles spread from x=5 to x=38 across the cake width.
-   Each candle is ~4px wide pre-scale, spaced ~9px apart. */
+/* Candles — spread across cake top (x: 5→36, y: ~24-28px pre-scale) */
 .green-candle,
 .purple-candle,
 .yellow-candle,
