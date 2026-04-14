@@ -91,29 +91,37 @@ body {
   z-index: 3;
   min-height: 100vh;
 
-  display: flex;
-  flex-direction: row;
+  display: grid;
+  grid-template-columns: 1fr auto 1fr;   /* character | cake-col | character */
+  grid-template-rows: 1fr;
   align-items: center;
-  justify-content: space-between;   /* boy | cake | girl evenly spaced */
+  justify-items: center;
 
-  padding: 32px clamp(24px, 5vw, 80px);
-  gap: 0;
+  padding: 40px clamp(12px, 5vw, 60px);
+  gap: clamp(8px, 3vw, 40px);
 }
+
+/* Boy sits in column 1 */
+#char-boy  { grid-column: 1; }
+
+/* ── Girl sits in column 3 */
+#char-girl { grid-column: 3; }
 
 /* ── Center column ─────────────────────────────────────────── */
 #center-col {
+  grid-column: 2;
   display: flex;
   flex-direction: column;
   align-items: center;
   gap: 0;
-  flex: 0 1 auto;           /* don't grow, can shrink */
-  max-width: min(420px, 60%);
-  min-width: 0;
+  width: clamp(200px, 36vw, 440px);
 }
 
 /* ── Title area ────────────────────────────────────────────── */
 #title-area {
   text-align: center;
+  z-index: 6;
+  position: relative;
   animation: floatY 3.5s ease-in-out infinite;
 }
 #title-area h1 {
@@ -134,9 +142,9 @@ body {
 }
 #title-area .subtitle {
   font-family: 'VT323', monospace;
-  font-size: clamp(15px, 2.6vw, 22px);
+  font-size: clamp(14px, 2.4vw, 21px);
   color: var(--blush);
-  margin-top: var(--sp-xs);
+  margin-top: 6px;
   text-shadow: 1px 1px 0 #8b3a62;
   letter-spacing: 1.5px;
   line-height: 1.6;
@@ -151,8 +159,14 @@ body {
   display: flex;
   flex-direction: column;
   align-items: center;
-  margin-top: 20px;
   position: relative;
+  z-index: 4;
+  /* 
+    The pixel-stage is 360px tall at scale(0.32) = ~245px visual,
+    but margin-bottom compensates. We add explicit top/bottom
+    padding here so the cake never touches title or button.
+  */
+  padding: 12px 0 0;
 }
 
 /* Wish text */
@@ -183,36 +197,59 @@ body {
 ─────────────────────────────────────────────────────────── */
 #pixel-stage {
   position: relative;
-  width: 45px;
-  height: 95px;
+  width: 680px;
+  height: 360px;
   transform-origin: top center;
-  transform: scale(2.2);
-  margin-bottom: -81px;   /* -(95 × (2.2 - 1)) = -114, leave some room */
+  transform: scale(0.32);
+  /* Formula: -(height × (1 - scale)) = -(360 × 0.68) = -245 */
+  margin-bottom: -245px;
   flex-shrink: 0;
+  z-index: 4;
 }
 
-/* Responsive scale */
-@media (max-width: 1100px) { #pixel-stage { transform: scale(2.0); margin-bottom: -95px; } }
-@media (max-width: 800px)  { #pixel-stage { transform: scale(1.7); margin-bottom: -104px; } }
-@media (max-width: 600px)  { #pixel-stage { transform: scale(1.4); margin-bottom: -114px; } }
-@media (max-width: 400px)  { #pixel-stage { transform: scale(1.1); margin-bottom: -119px; } }
+/* Responsive scale breakpoints */
+@media (max-width: 1100px) {
+  #pixel-stage { transform: scale(0.28); margin-bottom: -260px; }
+}
+@media (max-width: 800px) {
+  #pixel-stage { transform: scale(0.24); margin-bottom: -274px; }
+}
+@media (max-width: 600px) {
+  #pixel-stage { transform: scale(0.19); margin-bottom: -292px; }
+
 
 /* Cake — left:0, top:0 since stage is now exactly the cake's size */
+#hero {
+    grid-template-columns: 1fr;
+    grid-template-rows: auto;
+    align-items: center;
+    justify-items: center;
+    min-height: 100vh;
+    padding: 24px 16px;
+    gap: 12px;
+  }
+  #char-boy  { grid-column: 1; order: 3; }
+  #center-col{ grid-column: 1; order: 1; width: 90vw; }
+  #char-girl { grid-column: 1; order: 4; display: none; }
+}
+
+/* ── Cake positioning (inside pixel-stage) ── */
 .cake {
   position: absolute !important;
-  top: 0px !important;
-  left: 0px !important;
+  top: 0 !important;
+  left: 120px !important;
   transform-origin: 0 0 !important;
   transform: scale(8.5) !important;
   margin: 0 !important;
   filter: drop-shadow(0 0 32px rgba(247,180,80,.15));
+  z-index: 4;
 }
 
-/* Kill style.css layout wrappers */
+/* Reset conflicting style.css layout wrappers */
 .container,
 .cake-container { all: unset !important; display: contents !important; }
 
-/* Candles — spread across cake top (x: 5→36, y: ~24-28px pre-scale) */
+/* ── Candles ────────────────────────── */
 .green-candle,
 .purple-candle,
 .yellow-candle,
@@ -220,12 +257,12 @@ body {
   position: absolute !important;
   transform-origin: 0 0 !important;
   transform: scale(1) !important;
-  z-index: 3 !important;
+  z-index: 5 !important;
 }
-.green-candle  { top: 28px !important; left: 5px  !important; }
-.purple-candle { top: 24px !important; left: 14px !important; }
-.yellow-candle { top: 24px !important; left: 27px !important; }
-.blue-candle   { top: 28px !important; left: 36px !important; }
+.green-candle  { top: 30px !important; left: 272px !important; }
+.purple-candle { top: 26px !important; left: 306px !important; }
+.yellow-candle { top: 26px !important; left: 340px !important; }
+.blue-candle   { top: 30px !important; left: 374px !important; }
 
 /* ── Action area: button + scroll hint ─────────────────────── */
 #action-area {
@@ -233,9 +270,9 @@ body {
   flex-direction: column;
   align-items: center;
   gap: 8px;
-  margin-top: 12px;
+  margin-top: 18px;
   position: relative;
-  z-index: 10;
+  z-index: 6;
 }
 
 /* Blow button */
@@ -281,9 +318,9 @@ body {
   align-items: center;
   flex-shrink: 0;
   animation: charBob 2.8s ease-in-out infinite;
+  z-index: 3;
 }
 .char-wrap.girl { animation-delay: .5s; }
-
 .char-wrap canvas {
   image-rendering: pixelated;
   width: clamp(56px, 8vw, 100px);
