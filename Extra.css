@@ -159,45 +159,43 @@ body {
 }
 
 /* ── Cake area ──
-   Shell height must cover the FULL visual rendered height of the cake art.
-   The cake's box-shadow art reaches ~90px at 1x, scaled ×8.5 = 765px,
-   then the outer stage scale(0.35) brings it to ~268px visible height.
-   We set the shell to 280px to fully contain it with a little padding.
+   Shell height tuned so cake sits snugly between wish-text and button.
+   Visual cake height ≈ 268px but the cake art is centered in the stage,
+   so we use a smaller shell and offset the stage upward to tuck it in.
 ════════════════════════════════════════════════════ */
 #cake-area {
   display: block;
   position: relative;
   z-index: 4;
   width: 100%;
-  height: 280px;
+  height: 180px;
   overflow: visible;
   flex-shrink: 0;
 }
 
 #pixel-stage {
   position: absolute;
-  top: 0;
+  top: -40px;              /* pull stage up so cake fills the shell */
   left: 50%;
   width: 680px;
-  height: 800px;           /* tall enough to never clip the art */
+  height: 800px;
   transform-origin: top center;
   transform: translateX(-50%) scale(0.35);
   z-index: 4;
   overflow: visible;
 }
 
-/* Responsive — keep shell = stage_height × outer_scale + padding */
 @media (max-width: 1100px) {
-  #cake-area   { height: 250px; }
-  #pixel-stage { transform: translateX(-50%) scale(0.30); }
+  #cake-area   { height: 160px; }
+  #pixel-stage { top: -35px; transform: translateX(-50%) scale(0.30); }
 }
 @media (max-width: 800px) {
-  #cake-area   { height: 220px; }
-  #pixel-stage { transform: translateX(-50%) scale(0.25); }
+  #cake-area   { height: 140px; }
+  #pixel-stage { top: -30px; transform: translateX(-50%) scale(0.25); }
 }
 @media (max-width: 600px) {
-  #cake-area   { height: 175px; }
-  #pixel-stage { transform: translateX(-50%) scale(0.19); }
+  #cake-area   { height: 110px; }
+  #pixel-stage { top: -20px; transform: translateX(-50%) scale(0.19); }
 }
 
 /* Cake — anchored top-left, scales from that origin */
@@ -238,7 +236,7 @@ body {
   flex-direction: column;
   align-items: center;
   gap: var(--sp-sm);
-  margin-top: 32px;        /* guaranteed clearance below cake shell */
+  margin-top: 16px;
   position: relative;
   z-index: 6;
 }
