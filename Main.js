@@ -1,4 +1,48 @@
 /* ═══════════════════════════════════════════════════════════════
+   YOUTUBE AUDIO SETUP
+   Starts at 4:05 (245s) and loops back to that point.
+═══════════════════════════════════════════════════════════════ */
+var player;
+
+// Load the YouTube API
+var tag = document.createElement('script');
+tag.src = "https://www.youtube.com/iframe_api";
+var firstScriptTag = document.getElementsByTagName('script')[0];
+firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);
+
+function onYouTubeIframeAPIReady() {
+    player = new YT.Player('yt-player', {
+        height: '0',
+        width: '0',
+        videoId: 'Dl6bZeS81sQ',
+        playerVars: {
+            'autoplay': 0,
+            'controls': 0,
+            'start': 245,      // 4:05
+            'loop': 1,
+            'playlist': 'Dl6bZeS81sQ' 
+        },
+        events: {
+          'onReady': function(event) {
+                event.target.unMute(); // Force unmute
+                event.target.setVolume(100); // Set volume to max
+            },
+            'onStateChange': function(event) {
+                if (event.data === YT.PlayerState.ENDED) {
+                    player.seekTo(245);
+                    player.playVideo();
+                }
+            }
+        }
+    });
+}
+
+function playYouTubeMusic() {
+    if (player && player.playVideo) {
+        player.playVideo();
+    }
+}
+/* ═══════════════════════════════════════════════════════════════
    main.js — Birthday v5
    No footer · Perfect centering · Scroll storytelling
 ═══════════════════════════════════════════════════════════════ */
@@ -201,70 +245,6 @@ scheduleAmbientHearts();
   p(4, 18,4,7,  '#f0fff0');
   p(8, 17,1,9,  '#60a060');
 })();
-
-
-/* ═══════════════════════════════════════════════════════════════
-   AUDIO — Web Audio ambient + chime
-═══════════════════════════════════════════════════════════════ */
-let audioCtx     = null;
-let musicStarted = false;
-
-function getAC() {
-  if (!audioCtx) audioCtx = new (window.AudioContext || window.webkitAudioContext)();
-  return audioCtx;
-}
-
-function playChime() {
-  try {
-    const ac = getAC();
-    [523, 659, 784, 1047].forEach((freq, i) => {
-      const osc  = ac.createOscillator();
-      const gain = ac.createGain();
-      osc.connect(gain); gain.connect(ac.destination);
-      osc.type = 'sine'; osc.frequency.value = freq;
-      const t = ac.currentTime + i * 0.13;
-      gain.gain.setValueAtTime(0, t);
-      gain.gain.linearRampToValueAtTime(.18, t + .05);
-      gain.gain.exponentialRampToValueAtTime(.001, t + .85);
-      osc.start(t); osc.stop(t + 1);
-    });
-    // Blow whoosh
-    const buf = ac.createBuffer(1, ac.sampleRate * .35, ac.sampleRate);
-    const d   = buf.getChannelData(0);
-    for (let j = 0; j < d.length; j++)
-      d[j] = (Math.random() * 2 - 1) * Math.pow(1 - j / d.length, 2) * .18;
-    const src = ac.createBufferSource(); src.buffer = buf;
-    const f   = ac.createBiquadFilter(); f.type = 'bandpass'; f.frequency.value = 1100; f.Q.value = .6;
-    src.connect(f); f.connect(ac.destination);
-    src.start(ac.currentTime);
-  } catch (e) {}
-}
-
-function startMusic() {
-  if (musicStarted) return; musicStarted = true;
-  try {
-    const ac     = getAC();
-    const chords = [[261,329,392],[293,369,440],[246,311,392],[220,277,349]];
-    let ci = 0;
-    function chord() {
-      chords[ci++ % chords.length].forEach(freq => {
-        const osc=ac.createOscillator(), gain=ac.createGain(), filt=ac.createBiquadFilter();
-        filt.type='lowpass'; filt.frequency.value=680;
-        osc.connect(filt); filt.connect(gain); gain.connect(ac.destination);
-        osc.type='sine'; osc.frequency.value=freq;
-        const t=ac.currentTime;
-        gain.gain.setValueAtTime(0,t);
-        gain.gain.linearRampToValueAtTime(.032,t+1.4);
-        gain.gain.setValueAtTime(.032,t+2.8);
-        gain.gain.exponentialRampToValueAtTime(.001,t+5);
-        osc.start(t); osc.stop(t+5.2);
-      });
-    }
-    chord(); setInterval(chord, 4400);
-  } catch(e) {}
-}
-document.addEventListener('click', startMusic, { once: true });
-
 
 /* ═══════════════════════════════════════════════════════════════
    PARTICLES
