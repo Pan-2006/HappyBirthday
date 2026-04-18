@@ -95,6 +95,8 @@ body {
   justify-content: center;
   width: clamp(240px, 40vw, 480px);
   gap: 0;
+  /* Ensure children stack cleanly without overlap */
+  position: relative;
 }
 
 /* ── Title ── */
@@ -102,7 +104,7 @@ body {
   text-align: center;
   z-index: 6;
   position: relative;
-  margin-bottom: var(--sp-sm);
+  margin-bottom: var(--sp-md);   /* 24px below title block */
   animation: floatY 3.5s ease-in-out infinite;
 }
 #title-area h1 {
@@ -143,7 +145,7 @@ body {
   text-shadow: 0 0 14px rgba(247,201,72,.9), 2px 2px 0 var(--gold-dk);
   text-align: center;
   min-height: 30px;
-  margin-bottom: var(--sp-xs);
+  margin-bottom: var(--sp-sm);   /* 14px gap between wish and cake */
   animation: wishPulse 1.6s ease-in-out infinite;
   opacity: 0;
   transition: opacity .5s ease;
@@ -179,21 +181,25 @@ body {
   transform-origin: top center;
   transform: scale(0.35);
   margin-top: -8px;
-  margin-bottom: -234px;   /* -(360 × 0.65) */
+  /* Collapse the whitespace ABOVE the button:
+     rendered height = 360 × 0.35 = 126px
+     negative margin = -(360 - 126) = -234px … but we stop 28px short
+     so there's a 28px gap between cake bottom and button */
+  margin-bottom: -206px;
   flex-shrink: 0;
   z-index: 4;
   overflow: visible;
 }
 
-/* Responsive scale-down */
+/* Responsive scale-down — keep 28px gap below in every breakpoint */
 @media (max-width: 1100px) {
-  #pixel-stage { transform: scale(0.30); margin-bottom: -252px; }
+  #pixel-stage { transform: scale(0.30); margin-bottom: -224px; }
 }
 @media (max-width: 800px) {
-  #pixel-stage { transform: scale(0.25); margin-bottom: -270px; }
+  #pixel-stage { transform: scale(0.25); margin-bottom: -242px; }
 }
 @media (max-width: 600px) {
-  #pixel-stage { transform: scale(0.19); margin-bottom: -292px; }
+  #pixel-stage { transform: scale(0.19); margin-bottom: -265px; }
 }
 
 /* Cake — anchored top-left, scales from that origin */
@@ -233,8 +239,8 @@ body {
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: var(--sp-xs);
-  margin-top: var(--sp-sm);
+  gap: var(--sp-sm);
+  margin-top: var(--sp-md);   /* 24px above button */
   position: relative;
   z-index: 6;
 }
@@ -245,23 +251,24 @@ body {
   font-size: clamp(7px, 1.3vw, 11px);
   color: #1a0a2e !important;
   background-color: var(--gold) !important;
-  border: none;
+  border: 3px solid var(--gold-dk);
   padding: 14px 30px;
   cursor: pointer;
   letter-spacing: 1.5px;
-  box-shadow: 4px 4px 0 var(--gold-dk), 0 0 20px rgba(247,201,72,.3);
-  transition: transform .12s ease, box-shadow .12s ease;
+  box-shadow: 4px 4px 0 var(--gold-dk), 0 0 20px rgba(247,201,72,.5);
+  transition: transform .12s ease, box-shadow .12s ease, filter .12s ease;
   animation: btnGlow 2.8s ease-in-out infinite;
   position: relative;
   z-index: 6;
 }
 @keyframes btnGlow {
-  0%,100% { box-shadow: 4px 4px 0 var(--gold-dk), 0 0 20px rgba(247,201,72,.3); }
-  50%      { box-shadow: 4px 4px 0 var(--gold-dk), 0 0 40px rgba(247,201,72,.7); }
+  0%,100% { box-shadow: 4px 4px 0 var(--gold-dk), 0 0 20px rgba(247,201,72,.5); }
+  50%      { box-shadow: 4px 4px 0 var(--gold-dk), 0 0 50px rgba(247,201,72,.85); }
 }
 #blow-btn:hover {
-  transform: translate(-2px,-3px) scale(1.06);
-  box-shadow: 6px 7px 0 var(--gold-dk), 0 0 40px rgba(247,201,72,.65);
+  transform: translate(-2px,-3px) scale(1.08);
+  box-shadow: 6px 7px 0 var(--gold-dk), 0 0 60px rgba(247,201,72,.9);
+  filter: brightness(1.15);
   animation: none;
 }
 #blow-btn:active {
@@ -298,9 +305,9 @@ body {
   flex-shrink: 0;
   z-index: 3;
   /* Shift characters inward */
-  margin: 0 clamp(-20px, -2vw, 0px);
-  /* Align vertically with cake mid-point */
-  margin-bottom: 60px;
+  margin: 0 clamp(-10px, -1vw, 0px);
+  /* Align vertically with cake mid-point — lifted slightly */
+  margin-bottom: 80px;
 }
 
 .char-wrap canvas {
