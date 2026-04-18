@@ -26,7 +26,10 @@ body {
   padding-bottom: 0;
 }
 .cake-container {
-  padding-right: 0;
+  padding-right: 0 !important;
+  margin: 80px 0;             /* Give the scaled cake room to breathe */
+  display: flex;
+  justify-content: center;
 }
 .cake {
   /* Scale and position are fully controlled by extra.css

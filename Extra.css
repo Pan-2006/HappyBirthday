@@ -1,9 +1,6 @@
-/* ═══════════════════════════════════════════════════════════════
-   extra.css  —  Birthday v5
-   Clean, centered, no footer, responsive, scroll storytelling
-═══════════════════════════════════════════════════════════════ */
-
-/* ── Design Tokens ─────────────────────────────────────────── */
+/* ═══════════════════════════════════════════════════
+   TOKENS
+═══════════════════════════════════════════════════ */
 :root {
   --gold:      #f7c948;
   --gold-dk:   #7a4e00;
@@ -12,40 +9,23 @@
   --lavender:  #c9b8e8;
   --cream:     #fff8f0;
   --deep:      #0d0520;
-
-  /* Spacing scale */
-  --sp-xs: 8px;
-  --sp-sm: 16px;
-  --sp-md: 28px;
-  --sp-lg: 48px;
+  --sp-xs:     6px;
+  --sp-sm:     14px;
+  --sp-md:     24px;
 }
 
-/* ── Reset ──────────────────────────────────────────────────── */
+/* ═══════════════════════════════════════════════════
+   RESET — kill style.css * { background-color }
+═══════════════════════════════════════════════════ */
 *, *::before, *::after {
   box-sizing: border-box;
-  margin: 0;
-  padding: 0;
-}
-
-/* Prevent any stray white backgrounds on fixed/absolute elements */
-canvas, .star, #bg-canvas {
-  background: transparent !important;
+  margin: 0; padding: 0;
   background-color: transparent !important;
 }
 
-/* Hide character canvases until JS has drawn on them */
-#boy-canvas, #girl-canvas {
-  background: transparent !important;
-  image-rendering: pixelated;
-}
-
-/* ── Restore intentional button background ─────────────────── */
-#blow-btn  { background-color: var(--gold) !important; }
-
 html {
   scroll-behavior: smooth;
-  /* Lock scroll until candles are blown */
-  overflow: hidden;
+  overflow: hidden; /* locked until candles blown */
 }
 html.unlocked { overflow: auto; }
 
@@ -57,103 +37,126 @@ body {
   min-height: 100vh;
 }
 
-/* ── Fixed sky canvas ──────────────────────────────────────── */
+/* Restore intentional backgrounds */
+#blow-btn { background-color: var(--gold) !important; }
+
+/* ═══════════════════════════════════════════════════
+   FIXED SKY CANVAS
+═══════════════════════════════════════════════════ */
 #bg-canvas {
-  position: fixed;
-  inset: 0;
-  z-index: 0;
-  width: 100%;
-  height: 100%;
+  position: fixed; inset: 0;
+  z-index: 0; width: 100%; height: 100%;
   pointer-events: none;
 }
 
-/* ── Stars ─────────────────────────────────────────────────── */
+/* ═══════════════════════════════════════════════════
+   STARS
+═══════════════════════════════════════════════════ */
 .star {
   position: fixed;
   background: white !important;
   image-rendering: pixelated;
-  z-index: 1;
-  pointer-events: none;
+  z-index: 1; pointer-events: none;
   animation: twinkle var(--dur, 2s) var(--delay, 0s) infinite;
 }
 @keyframes twinkle {
   0%, 100% { opacity: var(--op, .75); }
-  50%       { opacity: .08; }
+  50%       { opacity: .06; }
 }
 
-/* ══════════════════════════════════════════════════════════════
-   HERO SECTION
-   Three-column flex:  [character]  [center-col]  [character]
-   Center-col is: title → cake → button, all stacked center
-══════════════════════════════════════════════════════════════ */
+/* ═══════════════════════════════════════════════════
+   HERO — three-column grid, true viewport center
+═══════════════════════════════════════════════════ */
 #hero {
   position: relative;
   z-index: 3;
   min-height: 100vh;
 
   display: grid;
-  grid-template-columns: 1fr auto 1fr;   /* character | cake-col | character */
+  grid-template-columns: 1fr auto 1fr;
   align-items: center;
   justify-items: center;
-
-  padding: 0 clamp(12px, 5vw, 60px);
-  gap: 0;
   overflow: hidden;
+
+  padding: 0 clamp(20px, 6vw, 80px);
 }
 
 #char-boy   { grid-column: 1; }
 #center-col { grid-column: 2; }
 #char-girl  { grid-column: 3; }
 
-/* ── Center column ─────────────────────────────────────────── */
+/* ═══════════════════════════════════════════════════
+   CENTER COLUMN — title → wish → cake → button
+═══════════════════════════════════════════════════ */
 #center-col {
-  grid-column: 2;
   display: flex;
   flex-direction: column;
   align-items: center;
+  justify-content: center;
+  width: clamp(240px, 40vw, 480px);
   gap: 0;
-  width: clamp(200px, 36vw, 440px);
 }
 
-/* ── Title area ────────────────────────────────────────────── */
+/* ── Title ── */
 #title-area {
   text-align: center;
   z-index: 6;
   position: relative;
-  margin-bottom: 10px;
+  margin-bottom: var(--sp-sm);
   animation: floatY 3.5s ease-in-out infinite;
 }
 #title-area h1 {
   font-family: 'Press Start 2P', monospace;
-  font-size: clamp(10px, 2vw, 18px);
+  font-size: clamp(11px, 2.1vw, 20px);
   color: var(--gold);
   text-shadow:
     3px 3px 0 var(--gold-dk),
-    0 0 24px rgba(247,201,72,.65),
-    0 0 48px rgba(247,201,72,.25);
-  letter-spacing: 3px;
+    0 0 28px rgba(247,201,72,.7),
+    0 0 56px rgba(247,201,72,.3);
+  letter-spacing: 4px;
   line-height: 2;
   animation: shimmer 4s ease-in-out infinite;
 }
 @keyframes shimmer {
-  0%,100% { text-shadow: 3px 3px 0 var(--gold-dk), 0 0 24px rgba(247,201,72,.65); }
-  50%      { text-shadow: 3px 3px 0 var(--gold-dk), 0 0 44px rgba(247,201,72,1), 0 0 72px rgba(247,201,72,.45); }
+  0%,100% { text-shadow: 3px 3px 0 var(--gold-dk), 0 0 28px rgba(247,201,72,.7); }
+  50%      { text-shadow: 3px 3px 0 var(--gold-dk), 0 0 48px rgba(247,201,72,1), 0 0 80px rgba(247,201,72,.45); }
 }
 #title-area .subtitle {
   font-family: 'VT323', monospace;
-  font-size: clamp(14px, 2.4vw, 21px);
-  color: var(--blush);
-  margin-top: 6px;
-  text-shadow: 1px 1px 0 #8b3a62;
+  font-size: clamp(14px, 2.2vw, 20px);
+  color: rgba(252,228,228,.7);
+  margin-top: var(--sp-xs);
   letter-spacing: 1.5px;
   line-height: 1.6;
+  text-shadow: 1px 1px 0 #8b3a62;
 }
 @keyframes floatY {
   0%,100% { transform: translateY(0); }
   50%      { transform: translateY(-6px); }
 }
 
-/* ── Cake area ─────────────────────────────────────────────── */
+/* ── Wish text ── */
+#wish-text {
+  font-family: 'VT323', monospace;
+  font-size: clamp(16px, 2.8vw, 26px);
+  color: var(--gold);
+  text-shadow: 0 0 14px rgba(247,201,72,.9), 2px 2px 0 var(--gold-dk);
+  text-align: center;
+  min-height: 30px;
+  margin-bottom: var(--sp-xs);
+  animation: wishPulse 1.6s ease-in-out infinite;
+  opacity: 0;
+  transition: opacity .5s ease;
+  position: relative;
+  z-index: 6;
+}
+#wish-text.visible { opacity: 1; }
+@keyframes wishPulse {
+  0%,100% { text-shadow: 0 0 14px rgba(247,201,72,.9), 2px 2px 0 var(--gold-dk); }
+  50%      { text-shadow: 0 0 32px rgba(247,201,72,1),  2px 2px 0 var(--gold-dk); }
+}
+
+/* ── Cake area ── */
 #cake-area {
   display: flex;
   flex-direction: column;
@@ -163,72 +166,37 @@ body {
   width: 100%;
 }
 
-/* Wish text */
-#wish-text {
-  font-family: 'VT323', monospace;
-  font-size: clamp(15px, 2.8vw, 26px);
-  color: var(--gold);
-  text-shadow: 0 0 12px rgba(247,201,72,.85), 2px 2px 0 var(--gold-dk);
-  text-align: center;
-  min-height: 32px;
-  margin-bottom: var(--sp-xs);
-  animation: wishPulse 1.6s ease-in-out infinite;
-  opacity: 0;
-  transition: opacity .45s ease;
-}
-#wish-text.visible { opacity: 1; }
-@keyframes wishPulse {
-  0%,100% { text-shadow: 0 0 12px rgba(247,201,72,.85), 2px 2px 0 var(--gold-dk); }
-  50%      { text-shadow: 0 0 28px rgba(247,201,72,1),   2px 2px 0 var(--gold-dk); }
-}
-
-/* ── Pixel stage wrapper ───────────────────────────────────
-   Stage matches cake's native pixel dimensions (45×95px).
-   Scaled up moderately so it fits neatly inside the hero.
-   transform-origin: top center lets flexbox center it.
-   margin-bottom compensates for the space the scaled stage
-   would otherwise occupy: -(height × (scale - 1))
-─────────────────────────────────────────────────────────── */
+/* ── Pixel stage ──
+   Cake box-shadow art: 680×360px at inner scale(8.5).
+   We scale the wrapper down, then compensate with
+   negative margin so surrounding layout stays tight.
+   margin-bottom = -(height × (1 - outerScale))
+════════════════════════════════════════════════════ */
 #pixel-stage {
   position: relative;
   width: 680px;
   height: 360px;
   transform-origin: top center;
-  transform: scale(0.32);
-  margin-top: -10px;
-  margin-bottom: -242px;   /* -(360 × (1 - 0.33)) */
+  transform: scale(0.35);
+  margin-top: -8px;
+  margin-bottom: -234px;   /* -(360 × 0.65) */
   flex-shrink: 0;
   z-index: 4;
   overflow: visible;
 }
 
-/* Responsive scale breakpoints */
+/* Responsive scale-down */
 @media (max-width: 1100px) {
-  #pixel-stage { transform: scale(0.28); margin-bottom: -260px; }
+  #pixel-stage { transform: scale(0.30); margin-bottom: -252px; }
 }
 @media (max-width: 800px) {
-  #pixel-stage { transform: scale(0.24); margin-bottom: -274px; }
+  #pixel-stage { transform: scale(0.25); margin-bottom: -270px; }
 }
 @media (max-width: 600px) {
   #pixel-stage { transform: scale(0.19); margin-bottom: -292px; }
-
-
-/* Cake — left:0, top:0 since stage is now exactly the cake's size */
-#hero {
-    grid-template-columns: 1fr;
-    grid-template-rows: auto;
-    align-items: center;
-    justify-items: center;
-    min-height: 100vh;
-    padding: 24px 16px;
-    gap: 12px;
-  }
-  #char-boy  { grid-column: 1; order: 3; }
-  #center-col{ grid-column: 1; order: 1; width: 90vw; }
-  #char-girl { grid-column: 1; order: 4; display: none; }
 }
 
-/* ── Cake positioning (inside pixel-stage) ── */
+/* Cake — anchored top-left, scales from that origin */
 .cake {
   position: absolute !important;
   top: 0 !important;
@@ -236,19 +204,20 @@ body {
   transform-origin: 0 0 !important;
   transform: scale(8.5) !important;
   margin: 0 !important;
-  filter: drop-shadow(0 0 32px rgba(247,180,80,.15));
+  filter: drop-shadow(0 0 24px rgba(247,180,80,.2));
   z-index: 4;
 }
 
-/* Reset conflicting style.css layout wrappers */
+/* Kill conflicting style.css layout wrappers */
 .container,
-.cake-container { all: unset !important; display: contents !important; }
+.cake-container {
+  all: unset !important;
+  display: contents !important;
+}
 
-/* ── Candles ────────────────────────── */
-.green-candle,
-.purple-candle,
-.yellow-candle,
-.blue-candle {
+/* ── Candles ── */
+.green-candle, .purple-candle,
+.yellow-candle, .blue-candle {
   position: absolute !important;
   transform-origin: 0 0 !important;
   transform: scale(1) !important;
@@ -259,96 +228,135 @@ body {
 .yellow-candle { top: 26px !important; left: 340px !important; }
 .blue-candle   { top: 30px !important; left: 374px !important; }
 
-/* ── Action area: button + scroll hint ─────────────────────── */
+/* ── Action area ── */
 #action-area {
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 8px;
-  margin-top: 16px;
+  gap: var(--sp-xs);
+  margin-top: var(--sp-sm);
   position: relative;
   z-index: 6;
 }
 
-/* Blow button */
+/* ── Blow button ── */
 #blow-btn {
-  margin-top: 150px;
   font-family: 'Press Start 2P', monospace;
   font-size: clamp(7px, 1.3vw, 11px);
   color: #1a0a2e !important;
-  background-color: #f7c948 !important;
+  background-color: var(--gold) !important;
   border: none;
-  padding: 13px 26px;
+  padding: 14px 30px;
   cursor: pointer;
-  letter-spacing: 1px;
-  box-shadow: 4px 4px 0 #7a4e00, 0 0 20px rgba(247,201,72,.3);
+  letter-spacing: 1.5px;
+  box-shadow: 4px 4px 0 var(--gold-dk), 0 0 20px rgba(247,201,72,.3);
   transition: transform .12s ease, box-shadow .12s ease;
   animation: btnGlow 2.8s ease-in-out infinite;
+  position: relative;
+  z-index: 6;
 }
 @keyframes btnGlow {
   0%,100% { box-shadow: 4px 4px 0 var(--gold-dk), 0 0 20px rgba(247,201,72,.3); }
-  50%      { box-shadow: 4px 4px 0 var(--gold-dk), 0 0 36px rgba(247,201,72,.65); }
+  50%      { box-shadow: 4px 4px 0 var(--gold-dk), 0 0 40px rgba(247,201,72,.7); }
 }
-#blow-btn:hover    { transform: translate(-2px,-2px) scale(1.05); box-shadow: 6px 6px 0 var(--gold-dk), 0 0 36px rgba(247,201,72,.6); animation: none; }
-#blow-btn:active   { transform: translate(2px,2px) scale(.95); box-shadow: 2px 2px 0 var(--gold-dk); }
-#blow-btn:disabled { opacity: .4; cursor: not-allowed; transform: none; animation: none; }
+#blow-btn:hover {
+  transform: translate(-2px,-3px) scale(1.06);
+  box-shadow: 6px 7px 0 var(--gold-dk), 0 0 40px rgba(247,201,72,.65);
+  animation: none;
+}
+#blow-btn:active {
+  transform: translate(2px,2px) scale(.95);
+  box-shadow: 2px 2px 0 var(--gold-dk);
+}
+#blow-btn:disabled {
+  opacity: .4; cursor: not-allowed;
+  transform: none; animation: none;
+}
 
-/* Scroll hint */
+/* ── Scroll hint ── */
 #scroll-hint {
   font-family: 'VT323', monospace;
-  font-size: clamp(12px, 1.8vw, 17px);
-  color: rgba(252,228,228,.4);
+  font-size: clamp(12px, 1.8vw, 16px);
+  color: rgba(252,228,228,.38);
   display: none;
   animation: nudge 2s ease-in-out infinite;
   letter-spacing: 1px;
+  margin-top: var(--sp-xs);
 }
 @keyframes nudge {
   0%,100% { transform: translateY(0); }
   50%      { transform: translateY(5px); }
 }
 
-/* ── Characters ─────────────────────────────────────────────── */
+/* ═══════════════════════════════════════════════════
+   CHARACTERS — closer to center, aligned to cake
+═══════════════════════════════════════════════════ */
 .char-wrap {
   display: flex;
   flex-direction: column;
   align-items: center;
   flex-shrink: 0;
-  animation: charBob 2.8s ease-in-out infinite;
   z-index: 3;
+  /* Shift characters inward */
+  margin: 0 clamp(-20px, -2vw, 0px);
+  /* Align vertically with cake mid-point */
+  margin-bottom: 60px;
 }
-.char-wrap.girl { animation-delay: .5s; }
+
 .char-wrap canvas {
   image-rendering: pixelated;
-  width: clamp(56px, 7vw, 96px);
+  width: clamp(60px, 8vw, 100px);
   height: auto;
-  filter: drop-shadow(0 3px 10px rgba(247,201,72,.18));
+  filter: drop-shadow(0 3px 12px rgba(247,201,72,.2));
+  /* Idle float animation */
+  animation: charFloat 3s ease-in-out infinite;
 }
+.char-wrap.girl canvas { animation-delay: .6s; }
+
+@keyframes charFloat {
+  0%,100% { transform: translateY(0px); }
+  50%      { transform: translateY(-8px); }
+}
+
+/* Blink animation on the characters' eyes (visual depth) */
+.char-wrap canvas {
+  animation: charFloat 3s ease-in-out infinite,
+             charBlink 5s step-end infinite;
+}
+@keyframes charBlink {
+  0%, 92%, 96%, 100% { opacity: 1; }
+  94%                 { opacity: .85; }   /* simulate blink via slight dim */
+}
+
 .char-name {
   font-family: 'VT323', monospace;
-  font-size: clamp(13px, 1.8vw, 18px);
-  color: var(--blush);
+  font-size: clamp(13px, 1.8vw, 17px);
+  color: rgba(252,228,228,.7);
   margin-top: 6px;
   text-shadow: 1px 1px 0 #8b3a62;
   letter-spacing: 1px;
 }
-@keyframes charBob {
-  0%,100% { transform: translateY(0) rotate(0deg); }
-  25%      { transform: translateY(-5px) rotate(-1deg); }
-  75%      { transform: translateY(-2px) rotate(.8deg); }
+
+/* ═══════════════════════════════════════════════════
+   MOBILE — vertical stack
+═══════════════════════════════════════════════════ */
+@media (max-width: 600px) {
+  #hero {
+    grid-template-columns: 1fr;
+    padding: 28px 16px;
+    gap: 12px;
+  }
+  #char-boy   { order: 2; margin-bottom: 0; margin: 0; }
+  #center-col { order: 1; width: 94vw; }
+  #char-girl  { display: none; }
+  .char-wrap canvas { width: 60px; }
 }
 
-/* Hide characters on small screens */
-@media (max-width: 560px) {
-  .char-wrap { display: none; }
-  #hero { justify-content: center; padding: 24px 12px; }
-}
-
-/* ══════════════════════════════════════════════════════════════
+/* ═══════════════════════════════════════════════════
    STORY SECTION
-   Full-width centered, vertical scroll storytelling
-══════════════════════════════════════════════════════════════ */
+═══════════════════════════════════════════════════ */
 #story {
-  display: none;           /* shown by JS after blow */
+  display: none;
   position: relative;
   z-index: 3;
   padding: 60px 20px 100px;
@@ -357,7 +365,6 @@ body {
   text-align: center;
 }
 
-/* Story lines: start invisible, JS adds .revealed */
 .story-line {
   font-family: 'VT323', monospace;
   font-size: clamp(19px, 3.2vw, 30px);
@@ -369,51 +376,41 @@ body {
   transition: opacity .75s ease, transform .75s ease;
   letter-spacing: .5px;
 }
-.story-line.revealed {
-  opacity: 1;
-  transform: translateY(0);
-}
+.story-line.revealed { opacity: 1; transform: translateY(0); }
 
-/* Color variants */
-.story-line.gold  { color: var(--gold);     text-shadow: 0 0 18px rgba(247,201,72,.4); }
+.story-line.gold  { color: var(--gold); text-shadow: 0 0 18px rgba(247,201,72,.4); }
 .story-line.blush { color: var(--blush); }
-.story-line.lav   { color: var(--lavender); font-size: clamp(14px, 2.4vw, 22px); }
-.story-line.small { font-size: clamp(12px, 1.9vw, 18px) !important; padding-top: 2px !important; color: var(--lavender); }
-.story-line.big   {
+.story-line.lav   { color: var(--lavender); font-size: clamp(14px,2.4vw,22px); }
+.story-line.small { font-size: clamp(12px,1.9vw,18px) !important; padding-top: 2px !important; color: var(--lavender); }
+.story-line.big {
   font-family: 'Press Start 2P', monospace;
   font-size: clamp(8px, 1.6vw, 14px);
-  color: var(--gold);
-  letter-spacing: 3px;
+  color: var(--gold); letter-spacing: 3px;
   padding: 40px 0 28px;
 }
 .story-line.final {
   font-family: 'Press Start 2P', monospace;
   font-size: clamp(8px, 1.5vw, 13px);
-  color: var(--rose);
-  letter-spacing: 2px;
-  padding: 36px 0;
+  color: var(--rose); letter-spacing: 2px; padding: 36px 0;
   text-shadow: 0 0 24px rgba(240,138,138,.5);
 }
 
-/* Pixel divider */
 .story-div {
-  width: 50%;
-  height: 3px;
-  margin: 6px auto;
+  width: 50%; height: 3px; margin: 6px auto;
   background: repeating-linear-gradient(
     90deg, var(--gold) 0 8px, transparent 8px 16px
   ) !important;
-  opacity: 0;
-  transition: opacity .7s ease .1s;
+  opacity: 0; transition: opacity .7s ease .1s;
 }
 .story-div.revealed { opacity: 1; }
 
-/* Replay wrap */
+/* ═══════════════════════════════════════════════════
+   REPLAY
+═══════════════════════════════════════════════════ */
 #replay-wrap {
-  display: none;
-  margin-top: 48px;
-  opacity: 0;
-  transition: opacity .6s ease;
+  display: none; margin-top: 48px;
+  opacity: 0; transition: opacity .6s ease;
+  text-align: center;
 }
 #replay-wrap.visible { opacity: 1; }
 
@@ -423,64 +420,50 @@ body {
   color: var(--lavender) !important;
   background: transparent !important;
   border: 2px solid var(--lavender);
-  padding: 10px 18px;
-  cursor: pointer;
+  padding: 10px 18px; cursor: pointer;
   letter-spacing: 1px;
   box-shadow: 3px 3px 0 #5a3a8a;
   transition: transform .1s, box-shadow .1s;
 }
 #replay-btn:hover { transform: translate(-2px,-2px); box-shadow: 5px 5px 0 #5a3a8a; }
 
-/* ══════════════════════════════════════════════════════════════
-   PARTICLES & EFFECTS  (elements spawned by JS)
-══════════════════════════════════════════════════════════════ */
+/* ═══════════════════════════════════════════════════
+   PARTICLES
+═══════════════════════════════════════════════════ */
 .particle {
-  position: fixed;
-  pointer-events: none;
-  z-index: 999;
-  animation: pFly var(--dur, 2s) var(--delay, 0s) ease-out forwards;
+  position: fixed; pointer-events: none; z-index: 999;
+  animation: pFly var(--dur,2s) var(--delay,0s) ease-out forwards;
 }
 @keyframes pFly {
-  0%   { opacity: 1;  transform: translate(0,0) scale(1) rotate(0deg); }
-  100% { opacity: 0;  transform: translate(var(--tx),var(--ty)) scale(.25) rotate(var(--rot)); }
+  0%   { opacity:1; transform:translate(0,0) scale(1) rotate(0deg); }
+  100% { opacity:0; transform:translate(var(--tx),var(--ty)) scale(.25) rotate(var(--rot)); }
 }
-
 .float-heart {
-  position: fixed;
-  pointer-events: none;
-  z-index: 4;
-  animation: hFloat var(--dur, 4s) var(--delay, 0s) ease-out forwards;
+  position: fixed; pointer-events: none; z-index: 4;
+  animation: hFloat var(--dur,4s) var(--delay,0s) ease-out forwards;
 }
 @keyframes hFloat {
-  0%   { opacity: .85; transform: translateY(0) scale(1); }
-  100% { opacity: 0;   transform: translateY(-180px) scale(.4) rotate(12deg); }
+  0%   { opacity:.85; transform:translateY(0) scale(1); }
+  100% { opacity:0;   transform:translateY(-180px) scale(.4) rotate(12deg); }
 }
-
 .smoke {
-  position: fixed;
-  pointer-events: none;
-  z-index: 998;
+  position: fixed; pointer-events: none; z-index: 998;
   border-radius: 50%;
   background: rgba(210,200,220,.55) !important;
   animation: smokeUp 1s ease-out forwards;
 }
 @keyframes smokeUp {
-  0%   { opacity: .65; transform: scale(1) translateY(0); }
-  100% { opacity: 0;   transform: scale(3.5) translateY(-36px); }
+  0%   { opacity:.65; transform:scale(1) translateY(0); }
+  100% { opacity:0;   transform:scale(3.5) translateY(-36px); }
 }
 
-/* Bottom ambient glow (replaces removed footer weight) */
+/* Bottom ambient glow replaces removed footer */
 body::after {
   content: '';
-  display: block;
-  position: fixed;
-  bottom: 0; left: 0; right: 0;
-  height: 120px;
+  position: fixed; bottom: 0; left: 0; right: 0;
+  height: 140px;
   background: linear-gradient(
-    to top,
-    rgba(247,180,80,.08),
-    transparent
+    to top, rgba(247,160,60,.07), transparent
   ) !important;
-  pointer-events: none;
-  z-index: 2;
+  pointer-events: none; z-index: 2;
 }
