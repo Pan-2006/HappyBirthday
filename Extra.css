@@ -158,48 +158,46 @@ body {
   50%      { text-shadow: 0 0 32px rgba(247,201,72,1),  2px 2px 0 var(--gold-dk); }
 }
 
-/* ── Cake area ── */
+/* ── Cake area ──
+   Shell height must cover the FULL visual rendered height of the cake art.
+   The cake's box-shadow art reaches ~90px at 1x, scaled ×8.5 = 765px,
+   then the outer stage scale(0.35) brings it to ~268px visible height.
+   We set the shell to 280px to fully contain it with a little padding.
+════════════════════════════════════════════════════ */
 #cake-area {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
+  display: block;
   position: relative;
   z-index: 4;
   width: 100%;
+  height: 280px;
+  overflow: visible;
+  flex-shrink: 0;
 }
 
-/* ── Pixel stage ──
-   Cake box-shadow art: 680×360px at inner scale(8.5).
-   We scale the wrapper down, then compensate with
-   negative margin so surrounding layout stays tight.
-   margin-bottom = -(height × (1 - outerScale))
-════════════════════════════════════════════════════ */
 #pixel-stage {
-  position: relative;
+  position: absolute;
+  top: 0;
+  left: 50%;
   width: 680px;
-  height: 360px;
+  height: 800px;           /* tall enough to never clip the art */
   transform-origin: top center;
-  transform: scale(0.35);
-  margin-top: -8px;
-  /* Collapse the whitespace ABOVE the button:
-     rendered height = 360 × 0.35 = 126px
-     negative margin = -(360 - 126) = -234px … but we stop 28px short
-     so there's a 28px gap between cake bottom and button */
-  margin-bottom: -206px;
-  flex-shrink: 0;
+  transform: translateX(-50%) scale(0.35);
   z-index: 4;
   overflow: visible;
 }
 
-/* Responsive scale-down — keep 28px gap below in every breakpoint */
+/* Responsive — keep shell = stage_height × outer_scale + padding */
 @media (max-width: 1100px) {
-  #pixel-stage { transform: scale(0.30); margin-bottom: -224px; }
+  #cake-area   { height: 250px; }
+  #pixel-stage { transform: translateX(-50%) scale(0.30); }
 }
 @media (max-width: 800px) {
-  #pixel-stage { transform: scale(0.25); margin-bottom: -242px; }
+  #cake-area   { height: 220px; }
+  #pixel-stage { transform: translateX(-50%) scale(0.25); }
 }
 @media (max-width: 600px) {
-  #pixel-stage { transform: scale(0.19); margin-bottom: -265px; }
+  #cake-area   { height: 175px; }
+  #pixel-stage { transform: translateX(-50%) scale(0.19); }
 }
 
 /* Cake — anchored top-left, scales from that origin */
@@ -240,7 +238,7 @@ body {
   flex-direction: column;
   align-items: center;
   gap: var(--sp-sm);
-  margin-top: var(--sp-md);   /* 24px above button */
+  margin-top: 32px;        /* guaranteed clearance below cake shell */
   position: relative;
   z-index: 6;
 }
