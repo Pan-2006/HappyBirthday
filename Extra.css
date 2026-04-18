@@ -93,19 +93,17 @@ body {
 
   display: grid;
   grid-template-columns: 1fr auto 1fr;   /* character | cake-col | character */
-  grid-template-rows: 1fr;
   align-items: center;
   justify-items: center;
 
-  padding: 40px clamp(12px, 5vw, 60px);
-  gap: clamp(8px, 3vw, 40px);
+  padding: 0 clamp(12px, 5vw, 60px);
+  gap: 0;
+  overflow: hidden;
 }
 
-/* Boy sits in column 1 */
-#char-boy  { grid-column: 1; }
-
-/* ── Girl sits in column 3 */
-#char-girl { grid-column: 3; }
+#char-boy   { grid-column: 1; }
+#center-col { grid-column: 2; }
+#char-girl  { grid-column: 3; }
 
 /* ── Center column ─────────────────────────────────────────── */
 #center-col {
@@ -122,6 +120,7 @@ body {
   text-align: center;
   z-index: 6;
   position: relative;
+  margin-bottom: 10px;
   animation: floatY 3.5s ease-in-out infinite;
 }
 #title-area h1 {
@@ -161,12 +160,7 @@ body {
   align-items: center;
   position: relative;
   z-index: 4;
-  /* 
-    The pixel-stage is 360px tall at scale(0.32) = ~245px visual,
-    but margin-bottom compensates. We add explicit top/bottom
-    padding here so the cake never touches title or button.
-  */
-  padding: 12px 0 0;
+  width: 100%;
 }
 
 /* Wish text */
@@ -201,10 +195,11 @@ body {
   height: 360px;
   transform-origin: top center;
   transform: scale(0.32);
-  /* Formula: -(height × (1 - scale)) = -(360 × 0.68) = -245 */
-  margin-bottom: -245px;
+  margin-top: -10px;
+  margin-bottom: -242px;   /* -(360 × (1 - 0.33)) */
   flex-shrink: 0;
   z-index: 4;
+  overflow: visible;
 }
 
 /* Responsive scale breakpoints */
@@ -270,13 +265,14 @@ body {
   flex-direction: column;
   align-items: center;
   gap: 8px;
-  margin-top: 18px;
+  margin-top: 16px;
   position: relative;
   z-index: 6;
 }
 
 /* Blow button */
 #blow-btn {
+  margin-top: 150px;
   font-family: 'Press Start 2P', monospace;
   font-size: clamp(7px, 1.3vw, 11px);
   color: #1a0a2e !important;
@@ -323,7 +319,7 @@ body {
 .char-wrap.girl { animation-delay: .5s; }
 .char-wrap canvas {
   image-rendering: pixelated;
-  width: clamp(56px, 8vw, 100px);
+  width: clamp(56px, 7vw, 96px);
   height: auto;
   filter: drop-shadow(0 3px 10px rgba(247,201,72,.18));
 }
