@@ -1,56 +1,62 @@
 /* ═══════════════════════════════════════════════════════════════
-   YOUTUBE AUDIO SETUP
-   Starts at 4:05 (245s) and loops back to that point.
+    AUDIO SETUP — Local MP3 with Fade In/Out
+    Starts at 4:05 (245s)
 ═══════════════════════════════════════════════════════════════ */
-var player;
 
-// Load the YouTube API
-var tag = document.createElement('script');
-tag.src = "https://www.youtube.com/iframe_api";
-var firstScriptTag = document.getElementsByTagName('script')[0];
-firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);
+/**
+ * Starts the music at 4:05 and fades the volume up to 0.8
+ */
+function playYouTubeMusic() {
+    const audio = document.getElementById('yt-player');
+    if (!audio) return;
 
-function onYouTubeIframeAPIReady() {
-    player = new YT.Player('yt-player', {
-        height: '0',
-        width: '0',
-        videoId: 'Dl6bZeS81sQ',
-        playerVars: {
-            'autoplay': 1,
-            'controls': 0,
-            'start': 245,      // 4:05
-            'loop': 1,
-            'playlist': 'Dl6bZeS81sQ' 
-        },
-        events: {
-          'onReady': function(event) {
-                // Mute initially to satisfy browser autoplay policy
-                // Will unmute when user clicks the button
-                event.target.mute();
-                event.target.setVolume(100);
-                event.target.pauseVideo(); // Wait for user gesture
-            },
-            'onStateChange': function(event) {
-                if (event.data === YT.PlayerState.ENDED) {
-                    player.seekTo(245);
-                    player.playVideo();
-                }
+    // 1. Set start point to 4:05 (245 seconds)
+    audio.currentTime = 245; 
+    audio.volume = 0; // Start at zero for the fade-in
+    
+    audio.play().then(() => {
+        // 2. Fade In Logic (0 to 0.8 over 1.6 seconds)
+        let fadeIn = setInterval(() => {
+            if (audio.volume < 0.8) {
+                // Increase volume by 0.05 every 100ms
+                audio.volume = Math.min(audio.volume + 0.05, 0.8);
+            } else {
+                clearInterval(fadeIn);
             }
-        }
+        }, 100);
+    }).catch(e => {
+        console.warn('Audio playback was blocked or failed:', e);
+    });
+
+    // 3. Loop Logic: If song ends, restart at 4:05
+    audio.addEventListener('ended', function() {
+        audio.currentTime = 245;
+        audio.play();
     });
 }
 
-function playYouTubeMusic() {
-    if (player && player.playVideo) {
-        try {
-            player.unMute();
-            player.setVolume(80);
-            player.seekTo(245, true);
-            player.playVideo();
-        } catch(e) {
-            console.warn('YouTube play failed:', e);
+/**
+ * Gracefully fades the music out and pauses it
+ */
+function fadeOutMusic() {
+    const audio = document.getElementById('yt-player');
+    if (!audio || audio.paused) return;
+
+    let fadeOut = setInterval(() => {
+        if (audio.volume > 0.05) {
+            audio.volume = Math.max(audio.volume - 0.05, 0);
+        } else {
+            clearInterval(fadeOut);
+            audio.pause();
+            
+            // This is the "Waiting" part:
+            // Reset the song to 4:05 so it starts correctly next time
+            audio.currentTime = 245; 
+            
+            // Set volume back to 0 so the next 'play' can fade it back in
+            audio.volume = 0; 
         }
-    }
+    }, 100);
 }
 /* ═══════════════════════════════════════════════════════════════
    main.js — Birthday v5
@@ -427,6 +433,8 @@ $('blow-btn').addEventListener('click', function () {
   // Unlock scroll, show hint + story, then scroll down
   setTimeout(() => {
     document.documentElement.classList.add('unlocked');
+    document.documentElement.style.overflow = 'auto';
+    document.body.style.overflowY = 'auto';
     $('scroll-hint').style.display = 'block';
 
     const story = $('story');
@@ -446,29 +454,34 @@ $('blow-btn').addEventListener('click', function () {
 /* ═══════════════════════════════════════════════════════════════
    REPLAY
 ═══════════════════════════════════════════════════════════════ */
+/* ═══════════════════════════════════════════════════════════════
+   REPLAY
+═══════════════════════════════════════════════════════════════ */
 $('replay-btn').addEventListener('click', function () {
-  blown     = false;
-  wishShown = false;
+    // 1. Start the fade-out and reset process
+    fadeOutMusic(); 
 
-  // Re-lock scroll
-  document.documentElement.classList.remove('unlocked');
+    // 2. Reset the interaction states
+    blown     = false;
+    wishShown = false;
 
-  $('story').style.display           = 'none';
-  $('story').setAttribute('aria-hidden', 'true');
-  $('replay-wrap').style.display     = 'none';
-  $('replay-wrap').classList.remove('visible');
-  $('scroll-hint').style.display     = 'none';
-  $('wish-text').textContent         = '✨ Make a wish... ✨';
-  $('wish-text').classList.remove('visible');
-  $('blow-btn').textContent          = '🕯️ Blow the Candles';
-  $('blow-btn').disabled             = false;
+    // 3. Lock scroll and hide story
+    document.documentElement.classList.remove('unlocked');
+    document.documentElement.style.overflow = 'hidden';
+    document.body.style.overflowY = 'hidden';
 
-  // Reset story lines for next run
-  document.querySelectorAll('.story-line, .story-div').forEach(el => {
-    el.classList.remove('revealed');
-    el.style.transitionDelay = '';
-  });
+    $('story').style.display = 'none';
+    $('story').setAttribute('aria-hidden', 'true');
+    $('replay-wrap').style.display = 'none';
+    $('replay-wrap').classList.remove('visible');
+    
+    // 4. Reset UI text
+    $('wish-text').textContent = '✨ Make a wish... ✨';
+    $('wish-text').classList.remove('visible');
+    $('blow-btn').textContent = '🕯️ Blow the Candles';
+    $('blow-btn').disabled = false;
 
-  relightCandles();
-  window.scrollTo({ top: 0, behavior: 'smooth' });
+    // 5. Relight and Scroll back to top
+    relightCandles();
+    window.scrollTo({ top: 0, behavior: 'smooth' });
 });

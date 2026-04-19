@@ -12,8 +12,8 @@
 </head>
 <body>
 
-  <!-- Hidden YouTube audio player -->
-  <div id="yt-player" style="display:none;position:fixed;width:0;height:0;"></div>
+  <!-- Local MP3 audio — plays on user click -->
+  <audio id="yt-player" src="About You - The 1975 (Instrumental).mp3" loop preload="auto"></audio>
 
   <!-- Fixed sky canvas (z-index: 0) -->
   <canvas id="bg-canvas"></canvas>
@@ -38,15 +38,8 @@
         <div class="char-name">— him —</div>
       </div>
 
-      <!-- Center column: wish → button → cake (bottom-anchored) -->
+      <!-- Center column: cake top, wish + button below -->
       <div id="center-col">
-
-        <div id="wish-text">✨ Make a wish... ✨</div>
-
-        <div id="action-area">
-          <button id="blow-btn">🕯️ Blow the Candles</button>
-          <div id="scroll-hint">↓ scroll for your message ↓</div>
-        </div>
 
         <div id="cake-area">
           <div id="pixel-stage">
@@ -56,6 +49,13 @@
             <div class="yellow-candle" id="candle-yellow"></div>
             <div class="blue-candle"   id="candle-blue"></div>
           </div>
+        </div>
+
+        <div id="wish-text">✨ Make a wish... ✨</div>
+
+        <div id="action-area">
+          <button id="blow-btn">🕯️ Blow the Candles</button>
+          <div id="scroll-hint">↓ scroll for your message ↓</div>
         </div>
 
       </div><!-- /#center-col -->
@@ -78,16 +78,39 @@
     <div class="story-line big">✦ A Birthday Blessing ✦</div>
     <div class="story-div"></div>
 
-    <div class="story-line">Like two pages of the same story,</div>
-    <div class="story-line">we were written to walk together —</div>
-    <div class="story-line gold">through every chapter, every quiet night,</div>
-    <div class="story-line">every prayer whispered under the same stars.</div>
+    <div class="story-line">Two years since we first met,</div>
+    <div class="story-line">and despite every hardship and difficulty, we made it work.</div>
+    <div class="story-line gold">We are so different, yet so much the same —</div>
+    <div class="story-line">and I wouldn’t give this up for anything.</div>
 
     <div class="story-div"></div>
 
-    <div class="story-line blush">You are the kind of person</div>
-    <div class="story-line blush">who makes ordinary days feel like poetry.</div>
-    <div class="story-line gold">Your laugh is a gift. Your heart, a home.</div>
+    <div class="story-line blush">It’s strange how we’ve had our differences...</div>
+    <div class="story-line blush">we talk, we don’t talk, we’ve both walked away.</div>
+    <div class="story-line gold">Yet somehow, we always find our way back to one another.</div>
+    <div class="story-line">I truly thank God for that.</div>
+
+    <div class="story-div"></div>
+
+    <div class="story-line">I believe it’s fate that keeps bringing us together,</div>
+    <div class="story-line">and I’m not complaining. You are kind, crazy, and difficult to handle —</div>
+    <div class="story-line gold">but that is exactly what I love about you.</div>
+    <div class="story-line">Even when things are frustrating, as long as we support each other,</div>
+    <div class="story-line">nothing else matters.</div>
+
+    <div class="story-div"></div>
+
+    <div class="story-line blush">You make my days so much better.</div>
+    <div class="story-line blush">Your voice, your laugh, your very presence...</div>
+    <div class="story-line gold">to me, it is a gift.</div>
+
+    <div class="story-div"></div>
+
+    <div class="story-line">I know I can be annoying and over the top,</div>
+    <div class="story-line">teasing you until it’s frustrating — but that’s just how I love you.</div>
+    <div class="story-line gold">I really do love you.</div>
+    <div class="story-line">May this be just one of many birthdays we celebrate together.</div>
+    <div class="story-line">To many more years, more birthdays, and more time together.</div>
 
     <div class="story-div"></div>
 
@@ -104,13 +127,13 @@
 
     <div class="story-div"></div>
 
-    <div class="story-line final">Happy Birthday, dear friend. 🤍</div>
+    <div class="story-line final">Happy Birthday, MHERISH. I Love You. 🤍</div>
 
     <div id="replay-wrap">
       <button id="replay-btn">↺ Relight the Candles</button>
     </div>
 
-  </section>
+</section>
 
   <script src="main.js"></script>
 </body>

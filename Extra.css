@@ -12,7 +12,7 @@
   --sp-xs:     6px;
   --sp-sm:     14px;
   --sp-md:     24px;
-  --cake-h:    397px;  /* 85 × 8.5 × 0.55 */
+  --cake-h:    520px;  /* 85 × 8.5 × 0.72 */
 }
 
 *, *::before, *::after {
@@ -20,14 +20,25 @@
   margin: 0; padding: 0;
   background-color: transparent !important;
 }
-html { scroll-behavior: smooth; overflow: hidden; }
+html { 
+  scroll-behavior: smooth; 
+  overflow: hidden; 
+  width: 100%; 
+  overflow-x: hidden;
+  height: auto;
+  min-height: 100%;
+  -webkit-overflow-scrolling: touch;
+}
 html.unlocked { overflow: auto; }
 body {
   background: var(--deep) !important;
   font-family: 'Pixelify Sans', sans-serif;
   color: var(--cream);
   overflow-x: hidden;
-  min-height: 100vh;
+  min-height: 100%;
+  width: 100%;
+  height: auto;
+  -webkit-overflow-scrolling: touch;
 }
 #blow-btn { background-color: var(--gold) !important; }
 
@@ -119,15 +130,17 @@ body {
   justify-content: center;
 }
 
-/* ── Center column: wish → button → cake (bottom-anchored) ── */
+/* ── Center column: cake on top, wish+button tight below ── */
 #center-col {
   display: flex;
   flex-direction: column;
   align-items: center;
-  justify-content: flex-end;
+  justify-content: center;
   position: relative;
   z-index: 4;
-  width: clamp(240px, 40vw, 520px);
+  width: clamp(240px, 50vw, 600px);
+  height: auto;
+  padding-bottom: 32px;  /* gap from viewport bottom */
 }
 
 /* ── Wish text — above button, above cake ── */
@@ -138,7 +151,7 @@ body {
   text-shadow: 0 0 14px rgba(247,201,72,.9), 2px 2px 0 var(--gold-dk);
   text-align: center;
   min-height: 30px;
-  margin-bottom: var(--sp-sm);
+  margin-top: 10px;
   animation: wishPulse 1.6s ease-in-out infinite;
   opacity: 0;
   transition: opacity .5s ease;
@@ -158,7 +171,7 @@ body {
   flex-direction: column;
   align-items: center;
   gap: var(--sp-sm);
-  margin-bottom: var(--sp-sm);
+  margin-top: 12px;
   position: relative;
   z-index: 6;
   flex-shrink: 0;
@@ -227,7 +240,7 @@ body {
   width: 680px;
   height: 800px;
   transform-origin: top center;
-  transform: translateX(-50%) scale(0.55);
+  transform: translateX(-50%) scale(0.72);
   z-index: 4;
   overflow: visible;
 }
@@ -241,7 +254,7 @@ body {
 .cake {
   position: absolute !important;
   top: 0 !important;
-  left: 120px !important;
+  left: 80px !important;
   transform-origin: 0 0 !important;
   transform: scale(8.5) !important;
   margin: 0 !important;
@@ -259,10 +272,10 @@ body {
   transform: scale(1) !important;
   z-index: 5 !important;
 }
-.green-candle  { top: 30px !important; left: 272px !important; }
-.purple-candle { top: 26px !important; left: 306px !important; }
-.yellow-candle { top: 26px !important; left: 340px !important; }
-.blue-candle   { top: 30px !important; left: 374px !important; }
+.green-candle  { top: 30px !important; left: 215px !important; }
+.purple-candle { top: 26px !important; left: 265px !important; }
+.yellow-candle { top: 26px !important; left: 315px !important; }
+.blue-candle   { top: 30px !important; left: 365px !important; }
 
 /* ═══════════════════════════════════════════════════
    CHARACTERS — absolute inside #bottom-stage,
@@ -310,41 +323,62 @@ body {
    RESPONSIVE
 ═══════════════════════════════════════════════════ */
 @media (max-width: 1100px) {
-  :root { --cake-h: 347px; }
-  #pixel-stage { transform: translateX(-50%) scale(0.48); }
+  :root { --cake-h: 448px; }
+  #pixel-stage { transform: translateX(-50%) scale(0.62); }
 }
 @media (max-width: 800px) {
-  :root { --cake-h: 289px; }
-  #pixel-stage { transform: translateX(-50%) scale(0.40); }
+  :root { --cake-h: 361px; }
+  #pixel-stage { transform: translateX(-50%) scale(0.50); }
   #char-boy    { left:  clamp(8px, 4vw, 60px); }
   #char-girl   { right: clamp(8px, 4vw, 60px); }
 }
 @media (max-width: 600px) {
-  :root { --cake-h: 217px; }
-  #pixel-stage { transform: translateX(-50%) scale(0.30); }
-  #char-boy, #char-girl { display: none; }
-  #center-col  { width: 94vw; }
-}
+  :root { 
+    --cake-h: 275px; 
+  }
+  
+  #pixel-stage { 
+    /* We must keep translateX(-50%) so it stays centered! */
+    transform: translateX(-50%) scale(0.4); 
+    transform-origin: center bottom;
+    left: 50%;
+    bottom: 20px; /* Keeps it slightly above the bottom edge */
+  }
 
+  /* If you want the characters to show on mobile, keep them. 
+     If you want them hidden to save space, leave this as 'none' */
+  #char-boy, #char-girl { 
+    display: none; 
+  }
+
+  #center-col { 
+    width: 94vw; 
+    margin: 0 auto;
+  }
+}
 /* ═══════════════════════════════════════════════════
    STORY SECTION
 ═══════════════════════════════════════════════════ */
 #story {
-  display: none;
-  position: relative;
-  z-index: 3;
-  padding: 60px 20px 100px;
-  max-width: 640px;
-  margin: 0 auto;
-  text-align: center;
+  display: none; /* Kept hidden until the candles are blown */
+    width: 100%;
+    max-width: 600px; /* Keeps text readable on desktop */
+    margin: 0 auto;
+    padding: 100px 20px; /* Adds space at top and bottom so it's not cramped */
+    text-align: center;
+    box-sizing: border-box;
+    /* Ensure the height is determined by the content */
+    height: auto; 
+    min-height: 100vh;
 }
 .story-line {
   font-family: 'VT323', monospace;
-  font-size: clamp(19px, 3.2vw, 30px);
+  font-size: 1.2rem;
   color: var(--cream);
-  line-height: 1.85;
+  line-height: 1.6;
   padding: 14px 0;
   opacity: 0;
+  margin: 20px 0;
   transform: translateY(20px);
   transition: opacity .75s ease, transform .75s ease;
   letter-spacing: .5px;
@@ -371,7 +405,10 @@ body {
   background: repeating-linear-gradient(90deg, var(--gold) 0 8px, transparent 8px 16px) !important;
   opacity: 0; transition: opacity .7s ease .1s;
 }
-.story-div.revealed { opacity: 1; }
+.story-div.revealed { 
+  opacity: 1; 
+  transform: translateY(0);
+}
 
 /* ═══════════════════════════════════════════════════
    REPLAY
