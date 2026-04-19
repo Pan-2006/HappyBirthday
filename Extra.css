@@ -174,15 +174,12 @@ body {
 }
 
 #pixel-stage {
-  position: absolute;
-  top: -40px;              /* pull stage up so cake fills the shell */
-  left: 50%;
-  width: 680px;
-  height: 800px;
-  transform-origin: top center;
-  transform: translateX(-50%) scale(0.35);
-  z-index: 4;
-  overflow: visible;
+  display: flex;
+    flex-direction: column;
+    align-items: center;
+    position: relative;
+    width: auto;
+    margin: 0 auto;
 }
 
 @media (max-width: 1100px) {
@@ -256,6 +253,9 @@ body {
   animation: btnGlow 2.8s ease-in-out infinite;
   position: relative;
   z-index: 6;
+  display: block;
+  margin: 20px auto 0; /* Auto margins on left/right are a safety net */
+  box-sizing: border-box;
 }
 @keyframes btnGlow {
   0%,100% { box-shadow: 4px 4px 0 var(--gold-dk), 0 0 20px rgba(247,201,72,.5); }

@@ -406,7 +406,7 @@ $('blow-btn').addEventListener('click', function () {
   btn.disabled = true;
   $('wish-text').classList.remove('visible');
 
-  playChime();
+  playYouTubeMusic();
   blowCandles();
 
   // Particles from cake center
