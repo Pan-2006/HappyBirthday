@@ -12,6 +12,9 @@
 </head>
 <body>
 
+  <!-- Hidden YouTube audio player -->
+  <div id="yt-player" style="display:none;position:fixed;width:0;height:0;"></div>
+
   <!-- Fixed sky canvas (z-index: 0) -->
   <canvas id="bg-canvas"></canvas>
 
@@ -20,44 +23,50 @@
        ════════════════════════════════════ -->
   <section id="hero">
 
-    <!-- Left character -->
-    <div class="char-wrap boy" id="char-boy">
-      <canvas id="boy-canvas" width="32" height="48"></canvas>
-      <div class="char-name">— him —</div>
+    <!-- Title stays at top of #hero -->
+    <div id="title-area">
+      <h1>✦ Happy Birthday ✦</h1>
+      <p class="subtitle">Two souls, one story —<br>written in starlight and grace.</p>
     </div>
 
-    <!-- Center column: title + cake + button -->
-    <div id="center-col">
+    <!-- Bottom stage: characters flank the center column -->
+    <div id="bottom-stage">
 
-      <div id="title-area">
-        <h1>✦ Happy Birthday ✦</h1>
-        <p class="subtitle">Two souls, one story —<br>written in starlight and grace.</p>
+      <!-- Left character -->
+      <div class="char-wrap boy" id="char-boy">
+        <canvas id="boy-canvas" width="32" height="48"></canvas>
+        <div class="char-name">— him —</div>
       </div>
 
-      <div id="cake-area">
+      <!-- Center column: wish → button → cake (bottom-anchored) -->
+      <div id="center-col">
+
         <div id="wish-text">✨ Make a wish... ✨</div>
 
-        <div id="pixel-stage">
-          <div class="cake" id="pixel-cake"></div>
-          <div class="green-candle"  id="candle-green"></div>
-          <div class="purple-candle" id="candle-purple"></div>
-          <div class="yellow-candle" id="candle-yellow"></div>
-          <div class="blue-candle"   id="candle-blue"></div>
+        <div id="action-area">
+          <button id="blow-btn">🕯️ Blow the Candles</button>
+          <div id="scroll-hint">↓ scroll for your message ↓</div>
         </div>
+
+        <div id="cake-area">
+          <div id="pixel-stage">
+            <div class="cake" id="pixel-cake"></div>
+            <div class="green-candle"  id="candle-green"></div>
+            <div class="purple-candle" id="candle-purple"></div>
+            <div class="yellow-candle" id="candle-yellow"></div>
+            <div class="blue-candle"   id="candle-blue"></div>
+          </div>
+        </div>
+
+      </div><!-- /#center-col -->
+
+      <!-- Right character -->
+      <div class="char-wrap girl" id="char-girl">
+        <canvas id="girl-canvas" width="32" height="48"></canvas>
+        <div class="char-name">— her —</div>
       </div>
 
-      <div id="action-area">
-        <button id="blow-btn">🕯️ Blow the Candles</button>
-        <div id="scroll-hint">↓ scroll for your message ↓</div>
-      </div>
-
-    </div><!-- /#center-col -->
-
-    <!-- Right character -->
-    <div class="char-wrap girl" id="char-girl">
-      <canvas id="girl-canvas" width="32" height="48"></canvas>
-      <div class="char-name">— her —</div>
-    </div>
+    </div><!-- /#bottom-stage -->
 
   </section>
 
@@ -103,7 +112,6 @@
 
   </section>
 
-  <div id="yt-player"></div>
   <script src="main.js"></script>
 </body>
 </html>

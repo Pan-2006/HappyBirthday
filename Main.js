@@ -16,7 +16,7 @@ function onYouTubeIframeAPIReady() {
         width: '0',
         videoId: 'Dl6bZeS81sQ',
         playerVars: {
-            'autoplay': 0,
+            'autoplay': 1,
             'controls': 0,
             'start': 245,      // 4:05
             'loop': 1,
@@ -24,8 +24,11 @@ function onYouTubeIframeAPIReady() {
         },
         events: {
           'onReady': function(event) {
-                event.target.unMute(); // Force unmute
-                event.target.setVolume(100); // Set volume to max
+                // Mute initially to satisfy browser autoplay policy
+                // Will unmute when user clicks the button
+                event.target.mute();
+                event.target.setVolume(100);
+                event.target.pauseVideo(); // Wait for user gesture
             },
             'onStateChange': function(event) {
                 if (event.data === YT.PlayerState.ENDED) {
@@ -39,7 +42,14 @@ function onYouTubeIframeAPIReady() {
 
 function playYouTubeMusic() {
     if (player && player.playVideo) {
-        player.playVideo();
+        try {
+            player.unMute();
+            player.setVolume(80);
+            player.seekTo(245, true);
+            player.playVideo();
+        } catch(e) {
+            console.warn('YouTube play failed:', e);
+        }
     }
 }
 /* ═══════════════════════════════════════════════════════════════
