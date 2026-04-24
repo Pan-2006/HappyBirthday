@@ -11,8 +11,8 @@ body {
     display: flex;
     flex-direction: column;
     align-items: center;    /* Perfect horizontal center */
-    justify-content: center; /* Perfect vertical center */
-    overflow: hidden;       /* Prevents accidental shift from scrollbars */
+    overflow-x: hidden;
+    overflow-y: auto;
 }
 
 

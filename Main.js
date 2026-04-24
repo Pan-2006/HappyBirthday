@@ -434,13 +434,15 @@ $('blow-btn').addEventListener('click', function () {
   setTimeout(() => {
     document.documentElement.classList.add('unlocked');
     document.documentElement.style.overflow = 'auto';
+    document.documentElement.style.height = 'auto'; 
     document.body.style.overflowY = 'auto';
-    $('scroll-hint').style.display = 'block';
+    document.body.style.height = 'auto';
 
     const story = $('story');
     story.style.display = 'block';          // ← only revealed here
     story.setAttribute('aria-hidden', 'false');
     $('replay-wrap').style.display = 'none';
+    $('replay-wrap').classList.remove('visible');
 
     initScrollReveal();
 
