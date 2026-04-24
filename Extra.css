@@ -324,7 +324,7 @@ body {
 
 /* ── MOBILE (≤600px) — full vertical stack, no overflow bleed ── */
 @media (max-width: 600px) {
-  :root { --cake-h: 240px; }
+  :root { --cake-h: 275px; }
 
   /* Hero: normal flow, not overflow:visible — prevents story bleed */
   #hero {
@@ -356,17 +356,35 @@ body {
   }
 
   /* Characters: hidden on mobile */
-  #char-boy, #char-girl { display: none; }
+  #char-boy, #char-girl { 
+    display: flex !important; 
+    position: absolute;
+    bottom: 0;
+    transform: scale(1);
+  }
+
+  #char-boy { 
+    left: -130px; /* Pulls the boy closer to the cake center */
+  }
+  
+  #char-girl { 
+    right: -130px; /* Pulls the girl closer to the cake center */
+  }
 
   /* Center col: full width, snug vertical stack */
   #center-col {
-    width: 100%;
+    width: 100vw;
     padding-bottom: 16px;
     justify-content: flex-end;
   }
 
   /* Cake stage: smaller scale */
-  #pixel-stage { transform: translateX(-50%) scale(0.34); }
+  #pixel-stage { 
+    transform: translateX(-50%) scale(0.35); 
+    transform-origin: center bottom;
+    left: 50%;
+  }
+
 
   /* Wish text + button: tight spacing */
   #wish-text  { margin-top: 8px; font-size: 18px; }
