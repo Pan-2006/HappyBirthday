@@ -224,14 +224,16 @@ body {
 /* ── Pixel stage ── */
 #pixel-stage {
   position: absolute;
-  top: 0;
+  bottom: 0;
   left: 50%;
-  width: 680px;
-  height: 800px;
-  transform-origin: top center;
-  transform: translateX(-50%) scale(0.72);
-  z-index: 4;
-  overflow: visible;
+  transform: translateX(-50%); /* This pulls the cake back to the exact center */
+  width: 200px; /* Give it a defined width so children can position relative to it */
+  height: var(--cake-h);
+  display: flex;
+  justify-content: center;
+  align-items: flex-end;
+  z-index: 5;
+  overflow: visible !important;
 }
 
 .container, .cake-container {
@@ -364,10 +366,12 @@ body {
   }
 
   #char-boy { 
+    display: flex !important;
     left: -130px; /* Pulls the boy closer to the cake center */
   }
   
   #char-girl { 
+    display: flex !important;
     right: -130px; /* Pulls the girl closer to the cake center */
   }
 
@@ -381,8 +385,8 @@ body {
   /* Cake stage: smaller scale */
   #pixel-stage { 
     transform: translateX(-50%) scale(0.35); 
-    transform-origin: center bottom;
     left: 50%;
+    bottom: 20px;
   }
 
 
