@@ -20,25 +20,14 @@
   margin: 0; padding: 0;
   background-color: transparent !important;
 }
-html { 
-  scroll-behavior: smooth; 
-  overflow: hidden; 
-  width: 100%; 
-  overflow-x: hidden;
-  height: auto;
-  min-height: 100%;
-  -webkit-overflow-scrolling: touch;
-}
+html { scroll-behavior: smooth; overflow: hidden; }
 html.unlocked { overflow: auto; }
 body {
   background: var(--deep) !important;
   font-family: 'Pixelify Sans', sans-serif;
   color: var(--cream);
   overflow-x: hidden;
-  min-height: 100%;
-  width: 100%;
-  height: auto;
-  -webkit-overflow-scrolling: touch;
+  min-height: 100vh;
 }
 #blow-btn { background-color: var(--gold) !important; }
 
@@ -254,7 +243,7 @@ body {
 .cake {
   position: absolute !important;
   top: 0 !important;
-  left: 80px !important;
+  left: 95px !important;
   transform-origin: 0 0 !important;
   transform: scale(8.5) !important;
   margin: 0 !important;
@@ -332,53 +321,83 @@ body {
   #char-boy    { left:  clamp(8px, 4vw, 60px); }
   #char-girl   { right: clamp(8px, 4vw, 60px); }
 }
+
+/* ── MOBILE (≤600px) — full vertical stack, no overflow bleed ── */
 @media (max-width: 600px) {
-  :root { 
-    --cake-h: 275px; 
-  }
-  
-  #pixel-stage { 
-    /* We must keep translateX(-50%) so it stays centered! */
-    transform: translateX(-50%) scale(0.4); 
-    transform-origin: center bottom;
-    left: 50%;
-    bottom: 20px; /* Keeps it slightly above the bottom edge */
+  :root { --cake-h: 240px; }
+
+  /* Hero: normal flow, not overflow:visible — prevents story bleed */
+  #hero {
+    min-height: 100vh;
+    height: 100vh;
+    overflow: hidden;
+    padding: 20px 16px 0;
+    justify-content: space-between;
   }
 
-  /* If you want the characters to show on mobile, keep them. 
-     If you want them hidden to save space, leave this as 'none' */
-  #char-boy, #char-girl { 
-    display: none; 
+  /* Title: smaller, tight to top */
+  #title-area {
+    margin-bottom: 8px;
+  }
+  #title-area h1 {
+    font-size: clamp(9px, 3.8vw, 14px);
+    letter-spacing: 2px;
+  }
+  #title-area .subtitle {
+    font-size: clamp(13px, 4vw, 17px);
   }
 
-  #center-col { 
-    width: 94vw; 
-    margin: 0 auto;
+  /* Bottom stage: fills remaining space, centers cake+button */
+  #bottom-stage {
+    flex: 1;
+    align-items: flex-end;
+    justify-content: center;
+    width: 100%;
   }
+
+  /* Characters: hidden on mobile */
+  #char-boy, #char-girl { display: none; }
+
+  /* Center col: full width, snug vertical stack */
+  #center-col {
+    width: 100%;
+    padding-bottom: 16px;
+    justify-content: flex-end;
+  }
+
+  /* Cake stage: smaller scale */
+  #pixel-stage { transform: translateX(-50%) scale(0.34); }
+
+  /* Wish text + button: tight spacing */
+  #wish-text  { margin-top: 8px; font-size: 18px; }
+  #action-area { margin-top: 8px; }
+  #blow-btn { padding: 12px 24px; font-size: 8px; }
 }
+
 /* ═══════════════════════════════════════════════════
    STORY SECTION
 ═══════════════════════════════════════════════════ */
 #story {
-  display: none; /* Kept hidden until the candles are blown */
-    width: 100%;
-    max-width: 600px; /* Keeps text readable on desktop */
-    margin: 0 auto;
-    padding: 100px 20px; /* Adds space at top and bottom so it's not cramped */
-    text-align: center;
-    box-sizing: border-box;
-    /* Ensure the height is determined by the content */
-    height: auto; 
-    min-height: 100vh;
+  display: none;
+  position: relative;
+  z-index: 3;
+  padding: 60px 20px 100px;
+  max-width: 640px;
+  margin: 0 auto;
+  text-align: center;
+  /* Ensure story never overlaps hero */
+  clear: both;
+}
+@media (max-width: 600px) {
+  #story { padding: 40px 20px 80px; }
 }
 .story-line {
   font-family: 'VT323', monospace;
-  font-size: 1.2rem;
+  font-size: clamp(19px, 3.2vw, 30px);
   color: var(--cream);
-  line-height: 1.6;
+  line-height: 1.85;
   padding: 14px 0;
   opacity: 0;
-  margin: 20px 0;
   transform: translateY(20px);
   transition: opacity .75s ease, transform .75s ease;
   letter-spacing: .5px;
@@ -405,10 +424,7 @@ body {
   background: repeating-linear-gradient(90deg, var(--gold) 0 8px, transparent 8px 16px) !important;
   opacity: 0; transition: opacity .7s ease .1s;
 }
-.story-div.revealed { 
-  opacity: 1; 
-  transform: translateY(0);
-}
+.story-div.revealed { opacity: 1; }
 
 /* ═══════════════════════════════════════════════════
    REPLAY
