@@ -224,16 +224,14 @@ body {
 /* ── Pixel stage ── */
 #pixel-stage {
   position: absolute;
-  bottom: 0;
+  top: 0;
   left: 50%;
-  transform: translateX(-50%); /* This pulls the cake back to the exact center */
-  width: 200px; /* Give it a defined width so children can position relative to it */
-  height: var(--cake-h);
-  display: flex;
-  justify-content: center;
-  align-items: flex-end;
-  z-index: 5;
-  overflow: visible !important;
+  width: 680px;
+  height: 800px;
+  transform-origin: top center;
+  transform: translateX(-50%) scale(0.72);
+  z-index: 4;
+  overflow: visible;
 }
 
 .container, .cake-container {
@@ -324,76 +322,87 @@ body {
   #char-girl   { right: clamp(8px, 4vw, 60px); }
 }
 
-/* ── MOBILE (≤600px) — full vertical stack, no overflow bleed ── */
+/* ── MOBILE (≤600px) ── */
 @media (max-width: 600px) {
-  :root { --cake-h: 275px; }
+  /* Cake visual height at scale(0.34): 85 × 8.5 × 0.34 = 245px */
+  :root { --cake-h: 245px; }
 
-  /* Hero: normal flow, not overflow:visible — prevents story bleed */
+  /* Hero: strict 100vh, no overflow so story never bleeds through */
   #hero {
-    min-height: 100vh;
     height: 100vh;
+    min-height: 0;
     overflow: hidden;
-    padding: 20px 16px 0;
-    justify-content: space-between;
+    padding: 16px 12px 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-start;
   }
 
-  /* Title: smaller, tight to top */
+  /* Title — compact but fully visible */
   #title-area {
-    margin-bottom: 8px;
+    flex-shrink: 0;
+    margin-bottom: 6px;
+    animation: none; /* disable float on mobile to save space */
   }
   #title-area h1 {
-    font-size: clamp(9px, 3.8vw, 14px);
-    letter-spacing: 2px;
+    font-size: clamp(8px, 3.5vw, 13px);
+    letter-spacing: 1px;
+    line-height: 1.6;
   }
   #title-area .subtitle {
-    font-size: clamp(13px, 4vw, 17px);
+    font-size: 14px;
+    margin-top: 2px;
   }
 
-  /* Bottom stage: fills remaining space, centers cake+button */
+  /* Bottom stage: fills rest, stacks cake+button at bottom */
   #bottom-stage {
     flex: 1;
+    width: 100%;
+    display: flex;
     align-items: flex-end;
     justify-content: center;
-    width: 100%;
+    overflow: hidden;
   }
 
-  /* Characters: hidden on mobile */
-  #char-boy, #char-girl { 
-    display: flex !important; 
-    position: absolute;
-    bottom: 0;
-    transform: scale(1);
-  }
+  /* Hide characters on mobile — too cramped */
+  #char-boy, #char-girl { display: none !important; }
 
-  #char-boy { 
-    display: flex !important;
-    left: -130px; /* Pulls the boy closer to the cake center */
-  }
-  
-  #char-girl { 
-    display: flex !important;
-    right: -130px; /* Pulls the girl closer to the cake center */
-  }
-
-  /* Center col: full width, snug vertical stack */
+  /* Center col: full width, snug bottom stack */
   #center-col {
-    width: 100vw;
-    padding-bottom: 16px;
+    width: 100%;
+    padding-bottom: 20px;
     justify-content: flex-end;
+    align-items: center;
   }
 
-  /* Cake stage: smaller scale */
-  #pixel-stage { 
-    transform: translateX(-50%) scale(0.35); 
+  /* Cake shell matches new scale */
+  #cake-area { height: var(--cake-h); }
+
+  /* Cake stage scaled down for mobile — restore proper transform */
+  #pixel-stage {
+    position: absolute;
+    top: 0;
     left: 50%;
-    bottom: 20px;
+    width: 680px;
+    height: 800px;
+    transform-origin: top center;
+    transform: translateX(-50%) scale(0.34);
   }
 
+  /* Wish text */
+  #wish-text {
+    font-size: 18px;
+    margin-top: 6px;
+    min-height: 24px;
+  }
 
-  /* Wish text + button: tight spacing */
-  #wish-text  { margin-top: 8px; font-size: 18px; }
-  #action-area { margin-top: 8px; }
-  #blow-btn { padding: 12px 24px; font-size: 8px; }
+  /* Button — easy tap target */
+  #action-area { margin-top: 8px; gap: 6px; }
+  #blow-btn {
+    font-size: 9px;
+    padding: 13px 28px;
+  }
 }
 
 /* ═══════════════════════════════════════════════════
@@ -415,7 +424,7 @@ body {
 }
 .story-line {
   font-family: 'VT323', monospace;
-  font-size: clamp(19px, 3.2vw, 30px);
+  font-size: clamp(19px, 5vw, 30px);
   color: var(--cream);
   line-height: 1.85;
   padding: 14px 0;
